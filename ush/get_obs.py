@@ -469,7 +469,7 @@ def get_obs(config, obtype, yyyymmdd_task):
             leadtime = yyyymmddhh - yyyymmdd_task
             # Call METplus subroutine to evaluate the template for the full path to
             # the file containing METplus timestrings at the current time.
-            fn = sts.do_string_sub(tmpl=fp_proc_templ,init=yyyymmdd_task,valid=yyyymmddhh,
+            fn = sts.do_string_sub(tmpl=fp_proc_tmpl,init=yyyymmdd_task,valid=yyyymmddhh,
                                    lead=leadtime.total_seconds())
             all_fp_proc_dict[fg].append(fn)
 
@@ -796,7 +796,7 @@ def get_obs(config, obtype, yyyymmdd_task):
                             mrms_pull_topofhour(valid_time=yyyymmddhh_str,
                                                 source=basedir_raw,
                                                 outdir=os.path.join(basedir_raw, 'topofhour'),
-                                                product=fields_in_filenames[i],
+                                                product=mrms_fields_in_obs_filenames[i],
                                                 add_vdate_subdir=False)
 
                         # The raw file name needs to be the same as what the retrieve_data.py
