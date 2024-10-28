@@ -211,14 +211,13 @@ fi
 #
 #-----------------------------------------------------------------------
 #
-set -x
 vx_intvl="$((10#${ACCUM_HH}))"
 VX_LEADHR_LIST=$( python3 $USHdir/set_leadhrs.py \
   --lhr_min="${vx_intvl}" \
   --lhr_max="${FCST_LEN_HRS}" \
   --lhr_intvl="${vx_intvl}" \
   --skip_check_files ) || \
-print_err_msg_exit "Call to set_leadhrs.py failed with return code: $?"
+  print_err_msg_exit "Call to set_leadhrs.py failed with return code: $?"
 #
 #-----------------------------------------------------------------------
 #
@@ -260,7 +259,7 @@ accumulation ending at lead hour ${hr_end} (relative to ${CDATE})...
     --fn_template="${fn_template}" \
     --num_missing_files_max="${num_missing_files_max}" \
     --time_lag="${time_lag%.*}" || \
-print_err_msg_exit "Call to set_leadhrs.py failed with return code: $?"
+    print_err_msg_exit "Call to set_leadhrs.py failed with return code: $?"
 done
 
 print_info_msg "

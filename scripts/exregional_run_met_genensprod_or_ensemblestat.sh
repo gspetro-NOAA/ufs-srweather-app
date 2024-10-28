@@ -231,14 +231,13 @@ case "$OBTYPE" in
 esac
 vx_hr_end="${FCST_LEN_HRS}"
 
-set -x
 if [ "${MetplusToolName}" = "GenEnsProd" ]; then
   VX_LEADHR_LIST=$( python3 $USHdir/set_leadhrs.py \
     --lhr_min="${vx_hr_start}" \
     --lhr_max="${vx_hr_end}" \
     --lhr_intvl="${vx_intvl}" \
     --skip_check_files ) || \
-print_err_msg_exit "Call to set_leadhrs.py failed with return code: $?"
+  print_err_msg_exit "Call to set_leadhrs.py failed with return code: $?"
 
 elif [ "${MetplusToolName}" = "EnsembleStat" ]; then
   VX_LEADHR_LIST=$( python3 $USHdir/set_leadhrs.py \
@@ -250,9 +249,8 @@ elif [ "${MetplusToolName}" = "EnsembleStat" ]; then
     --fn_template="${OBS_INPUT_FN_TEMPLATE}" \
     --num_missing_files_max="${NUM_MISSING_OBS_FILES_MAX}" \
     --time_lag="${time_lag%.*}" ) || \
-print_err_msg_exit "Call to set_leadhrs.py failed with return code: $?"
+  print_err_msg_exit "Call to set_leadhrs.py failed with return code: $?"
 fi
-echo "VX_LEADHR_LIST=$VX_LEADHR_LIST"
 #
 #-----------------------------------------------------------------------
 #
