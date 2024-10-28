@@ -136,7 +136,7 @@ set_vx_params \
 vx_output_basedir=$( eval echo "${VX_OUTPUT_BASEDIR}" )
 
 OBS_INPUT_DIR="${OBS_DIR}"
-OBS_INPUT_FN_TEMPLATE=$( eval echo ${OBS_NDAS_ADPSFCandADPUPA_FN_TEMPLATE} )
+OBS_INPUT_FN_TEMPLATE=$( eval echo ${OBS_NDAS_FN_TEMPLATES[1]} )
 
 OUTPUT_BASE="${vx_output_basedir}"
 OUTPUT_DIR="${OUTPUT_BASE}/metprd/${MetplusToolName}_obs"
@@ -161,11 +161,11 @@ for yyyymmddhh in ${obs_retrieve_times_crnt_day[@]}; do
   sec_since_ref=$(${DATE_UTIL} --date "${yyyymmdd} ${hh} hours" +%s)
   lhr=$(( (sec_since_ref - sec_since_ref_task)/3600 ))
 
-  fp=$( python3 $USHdir/run_eval_metplus_timestr_tmpl.py \
+  fp=$( python3 $USHdir/eval_metplus_timestr_tmpl.py \
     --init_time="${yyyymmdd_task}00" \
-    --fhr="${lhr}" \
-    --fn_template="${OBS_DIR}/${OBS_NDAS_ADPSFCandADPUPA_FN_TEMPLATE}") || \
-print_err_msg_exit "Call to run_eval_metplus_timestr_tmpl.py failed with return code: $?"
+    --lhr="${lhr}" \
+    --fn_template="${OBS_DIR}/${OBS_NDAS_FN_TEMPLATES[1]}") || \
+    print_err_msg_exit "Call to eval_metplus_timestr_tmpl.py failed with return code: $?"
 
   if [[ -f "${fp}" ]]; then
     print_info_msg "

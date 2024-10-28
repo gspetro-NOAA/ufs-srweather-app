@@ -184,13 +184,13 @@ if [ "${grid_or_point}" = "grid" ]; then
       ;;
     "REFC")
       OBS_INPUT_DIR="${OBS_DIR}"
-      OBS_INPUT_FN_TEMPLATE="${OBS_MRMS_REFC_FN_TEMPLATE}"
+      OBS_INPUT_FN_TEMPLATE="${OBS_MRMS_FN_TEMPLATES[1]}"
       FCST_INPUT_DIR="${vx_fcst_input_basedir}"
       FCST_INPUT_FN_TEMPLATE="${FCST_SUBDIR_TEMPLATE:+${FCST_SUBDIR_TEMPLATE}/}${FCST_FN_TEMPLATE}"
       ;;
     "RETOP")
       OBS_INPUT_DIR="${OBS_DIR}"
-      OBS_INPUT_FN_TEMPLATE="${OBS_MRMS_RETOP_FN_TEMPLATE}"
+      OBS_INPUT_FN_TEMPLATE="${OBS_MRMS_FN_TEMPLATES[3]}"
       FCST_INPUT_DIR="${vx_fcst_input_basedir}"
       FCST_INPUT_FN_TEMPLATE="${FCST_SUBDIR_TEMPLATE:+${FCST_SUBDIR_TEMPLATE}/}${FCST_FN_TEMPLATE}"
       ;;
@@ -232,7 +232,6 @@ case "$OBTYPE" in
 esac
 vx_hr_end="${FCST_LEN_HRS}"
 
-set -x
 VX_LEADHR_LIST=$( python3 $USHdir/set_leadhrs.py \
   --date_init="${CDATE}" \
   --lhr_min="${vx_hr_start}" \
@@ -242,7 +241,7 @@ VX_LEADHR_LIST=$( python3 $USHdir/set_leadhrs.py \
   --fn_template="${OBS_INPUT_FN_TEMPLATE}" \
   --num_missing_files_max="${NUM_MISSING_OBS_FILES_MAX}" \
   --time_lag="${time_lag%.*}") || \
-print_err_msg_exit "Call to set_leadhrs.py failed with return code: $?"
+  print_err_msg_exit "Call to set_leadhrs.py failed with return code: $?"
 #
 #-----------------------------------------------------------------------
 #

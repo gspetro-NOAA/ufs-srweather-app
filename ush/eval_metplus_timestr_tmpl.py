@@ -11,14 +11,14 @@ except:
     raise
 from metplus.util import string_template_substitution as sts
 
-def eval_tmpl(init_time, fhr, time_lag, fn_template, verbose=False):
+def eval_metplus_timestr_tmpl(init_time, lhr, time_lag, fn_template, verbose=False):
     """
     Calls native METplus routine for evaluating filename templates
 
     Args:
         init_time   (str): Date string for initial time in YYYYMMDD[mmss] format, where minutes and
                            seconds are optional.
-        fhr         (int): Forecast hour (number of hours since init_time)
+        lhr         (int): Lead hour (number of hours since init_time)
         time_lag    (int): Hours of time lag for a time-lagged ensemble member
         fn_template (str): The METplus filename template for finding the files
         verbose    (bool): By default this script only outputs the list of forecast hours
@@ -35,8 +35,8 @@ def eval_tmpl(init_time, fhr, time_lag, fn_template, verbose=False):
     else:
         raise ValueError(f"Invalid {init_time=}; must be 10, 12, or 14 characters in length")
 
-    validdate=initdate + timedelta(hours=fhr)
-    leadsec=fhr*3600
+    validdate=initdate + timedelta(hours=lhr)
+    leadsec=lhr*3600
     # Evaluate the METplus timestring template for the current lead hour
     if verbose:
         print("Resolving METplus template for:")
@@ -52,12 +52,12 @@ if __name__ == "__main__":
     )
     parser.add_argument("-v", "--verbose", help="Verbose output", action="store_true")
     parser.add_argument("-i", "--init_time", help="Initial date in YYYYMMDDHH[mmss] format", type=str, default='')
-    parser.add_argument("-f", "--fhr", help="Forecast hour", type=int, required=True)
+    parser.add_argument("-f", "--lhr", help="Forecast hour", type=int, required=True)
     parser.add_argument("-tl", "--time_lag", help="Hours of time lag for a time-lagged ensemble member", type=int, default=0)
     parser.add_argument("-ft", "--fn_template", help="Template for file names to search; see ??? for details on template settings", type=str, default='')
 
     args = parser.parse_args()
 
-    filename = eval_tmpl(**vars(args))
+    filename = eval_metplus_timestr_tmpl(**vars(args))
     # If called from command line, we want to print the resolved filename
     print(filename)
