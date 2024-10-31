@@ -6,9 +6,9 @@ SRW Smoke & Dust (SRW-SD) Features
 
 .. attention::
 
-   SRW-SD capabilities are a new SRW App feature supported only on Hera; on other systems, users can expect only limited support. 
+   SRW-SD capabilities are a new SRW App feature supported on Hera and Orion/Hercules; on other systems, users can expect only limited support.
 
-This chapter provides instructions for running a sample six-hour forecast for July, 22, 2019 at 0z using SRW Smoke & Dust (SRW-SD) features. These features have been merged into the SRW App repository from the Rapid Refresh Forecast System (RRFS) repository. This forecast uses RAP data for :term:`ICs` and :term:`LBCs`, the ``RRFS_CONUS_3km`` predefined grid, and the ``FV3_HRRR_gf`` physics suite. This pysics suite is similar to the NOAA operational HRRR v4 suite (Dowell et al., 2022), with the addition of the Grell-Freitas deep convective parameterization. `Scientific documentation for the HRRR_gf suite <https://dtcenter.ucar.edu/GMTB/v7.0.0/sci_doc/_h_r_r_r_gf_page.html>`_ and `technical documentation <https://ccpp-techdoc.readthedocs.io/en/v7.0.0/>`_ are available with the CCPP v7.0.0 release but may differ slightly from the version available in the SRW App. 
+This chapter provides instructions for running a sample six-hour forecast for July, 22, 2019 at 0z using SRW Smoke & Dust (SRW-SD) features. These features have been merged into an SRW App feature branch from a UFS-WM Rapid Refresh Forecast System (RRFS) production branch. This forecast uses RAP data for :term:`ICs` and :term:`LBCs`, the ``RRFS_CONUS_3km`` predefined grid, and the ``FV3_HRRR_gf`` physics suite. This pysics suite is similar to the NOAA operational HRRR v4 suite (Dowell et al., 2022), with the addition of the Grell-Freitas deep convective parameterization. `Scientific documentation for the HRRR_gf suite <https://dtcenter.ucar.edu/GMTB/v7.0.0/sci_doc/_h_r_r_r_gf_page.html>`_ and `technical documentation <https://ccpp-techdoc.readthedocs.io/en/v7.0.0/>`_ are available with the CCPP v7.0.0 release but may differ slightly from the version available in the SRW App.
 
 .. note::
 
@@ -19,7 +19,7 @@ Quick Start Guide (SRW-SD)
 
 .. attention::
 
-   These instructions should work smoothly on Hera, but users on other systems may need to make additional adjustments. 
+   These instructions should work smoothly on Hera and Orion/Hercules, but users on other systems may need to make additional adjustments.
 
 Download the Code
 -------------------
@@ -28,10 +28,8 @@ Clone the |branch| branch of the authoritative SRW App repository:
 
 .. code-block:: console
 
-   git clone -b smoke_dust https://github.com/chan-hoo/ufs-srweather-app
+   git clone -b main_aqm https://github.com/ufs-community/ufs-srweather-app
    cd ufs-srweather-app
-
-.. COMMENT: Update clone command to reflect authoritative branch once features are merged in. 
 
 Checkout Externals
 ---------------------
@@ -45,13 +43,11 @@ Users must run the ``checkout_externals`` script to collect (or "check out") the
 Build the SRW App with AQM
 -----------------------------
 
-On Hera, users can build the SRW App AQM binaries with the smoke argument:
-
 .. code-block:: console
 
-   ./devbuild.sh -p=<machine> --smoke
+   ./app_build.sh -p=<machine>
 
-where ``<machine>`` is ``hera``. The ``--smoke`` argument indicates the configuration/version of the application to build (i.e., SRW-SD). 
+where ``<machine>`` is ``hera``, ``orion``, or ``hercules``.
 
 Building the SRW App with SRW-SD on other machines, including other :srw-wiki:`Level 1 <Supported-Platforms-and-Compilers>` platforms, is not currently guaranteed to work, and users may have to make adjustments to the modulefiles for their system. 
 
@@ -60,15 +56,16 @@ If SRW-SD builds correctly, users should see the standard executables listed in 
 Load the |wflow_env| Environment
 --------------------------------------------
 
-Load the Python environment for the workflow:
+Load the workflow environment:
 
 .. code-block:: console
 
+   module purge
+   source /path/to/ufs-srweather-app/modulefiles/versions/run.ver_orion
    module use /path/to/ufs-srweather-app/modulefiles
    module load wflow_<machine>
-   conda activate srw_app
 
-where ``<machine>`` is ``hera``. The workflow should load on other platforms listed under the ``MACHINE`` variable in :numref:`Section %s <user>`, but users may need to adjust other elements of the process when running on those platforms. 
+where ``<machine>`` is ``hera``, ``orion``, or ``hercules``. The workflow should load on other platforms listed under the ``MACHINE`` variable in :numref:`Section %s <user>`, but users may need to adjust other elements of the process when running on those platforms.
 
 .. _srw-sd-config:
 
@@ -84,18 +81,18 @@ Users will need to configure their experiment by setting parameters in the ``con
    
 Users will need to change the ``ACCOUNT`` variable in ``config.yaml`` to an account they have access to. They may also wish to adjust other experiment settings. For more information on each task and variable, see :numref:`Section %s <ConfigWorkflow>`. 
 
-On Level 1 systems, users can find :term:`ICs/LBCs` for the SRW-SD sample case in the usual :ref:`input data locations <Data>` under ``RAP/2019072200``. Users will need to add the following lines to ``task_get_extrn_*:`` in their ``config.yaml`` file, adjusting the file path to point to the correct data locations:
+On Level 1 systems, users can find :term:`ICs/LBCs` for the SRW-SD sample case in the usual :ref:`input data locations <Data>` under ``RAP/2019072200``. Users will need to switch the data directory for :term:`ICs/LBCs` if running on Orion or Hercules, on the following lines in ``config.yaml/task_get_extrn_*:``:
 
 .. code-block:: console
 
    task_get_extrn_ics:
-     USE_USER_STAGED_EXTRN_FILES: true
-     EXTRN_MDL_SOURCE_BASEDIR_ICS: /scratch1/NCEPDEV/nems/role.epic/UFS_SRW_data/develop/input_model_data/RAP/${yyyymmddhh}
+     EXTRN_MDL_SOURCE_BASEDIR_ICS: /scratch2/NCEPDEV/naqfc/Chan-hoo.Jeon/aqm_sample_data/RAP_DATA_SD/${yyyymmddhh} # hera
+#  EXTRN_MDL_SOURCE_BASEDIR_ICS: /work/noaa/epic/SRW-AQM_DATA/input_model_data/RAP/${yyyymmddhh} # orion/hercules
    task_get_extrn_lbcs:
-     USE_USER_STAGED_EXTRN_FILES: true
-     EXTRN_MDL_SOURCE_BASEDIR_LBCS: /scratch1/NCEPDEV/nems/role.epic/UFS_SRW_data/develop/input_model_data/RAP/${yyyymmddhh}
+     EXTRN_MDL_SOURCE_BASEDIR_LBCS: /scratch2/NCEPDEV/naqfc/Chan-hoo.Jeon/aqm_sample_data/RAP_DATA_SD/${yyyymmddhh} # hera
+#  EXTRN_MDL_SOURCE_BASEDIR_LBCS: /work/noaa/epic/SRW-AQM_DATA/input_model_data/RAP/${yyyymmddhh} # orion/hercules
 
-Note that users on other systems will need to use the correct data path for their system. Currently, Hera is the only system supported, but the data is available on other Level 1 systems for those interested in tinkering with the workflow. 
+Note that users on other systems will need to use the correct data path for their system. Data is available on other Level 1 systems for those interested in tinkering with the workflow.
 
 .. COMMENT: Data not in bucket yet. Path needs changing. 
    Users can also download the data required for the community experiment from the `UFS SRW App Data Bucket <https://noaa-ufs-srw-pds.s3.amazonaws.com/index.html#develop-20240618/input_model_data/FV3GFS/netcdf/>`_. 
@@ -110,7 +107,7 @@ Users may also wish to change :term:`cron`-related parameters in ``config.yaml``
 
 This means that cron will submit the launch script every 3 minutes. Users may choose not to submit using cron or to submit at a different frequency. Note that users should create a crontab by running ``crontab -e`` the first time they use cron.
 
-When using the basic ``config.smoke_dust.yaml`` experiment, the usual pre-processing and colstart forecast tasks are used,  because ``"parm/wflow/prep.yaml"`` appears in the list of workflow files in the ``rocoto: tasks: taskgroups:`` section of ``config.yaml`` (see :numref:`Section %s <TasksPrepAQM>` for task descriptions). To turn on AQM *post*-processing tasks in the workflow, include ``"parm/wflow/aqm_post.yaml"`` in the ``rocoto: tasks: taskgroups:`` section, too (see :numref:`Section %s <TasksPostAQM>` for task descriptions). 
+When using the basic ``config.smoke_dust.yaml`` experiment, the usual pre-processing and coldstart forecast tasks are used, because ``"parm/wflow/prep.yaml"`` appears in the list of workflow files in the ``rocoto: tasks: taskgroups:`` section of ``config.yaml`` (see :numref:`Section %s <TasksPrepAQM>` for task descriptions). To turn on AQM *post*-processing tasks in the workflow, include ``"parm/wflow/aqm_post.yaml"`` in the ``rocoto: tasks: taskgroups:`` section, too (see :numref:`Section %s <TasksPostAQM>` for task descriptions).
 
 .. COMMENT: Update wflow info above! 
 
@@ -206,43 +203,43 @@ The workflow run is complete when all tasks display a "SUCCEEDED" message. If ev
 
 .. code-block:: console
 
-         CYCLE                   TASK       JOBID       STATE   EXIT STATUS   TRIES   DURATION
-   ============================================================================================
-   201907220000             make_grid    66218006   SUCCEEDED             0       1       45.0
-   201907220000             make_orog    66218340   SUCCEEDED             0       1      372.0
-   201907220000        make_sfc_climo    66218575   SUCCEEDED             0       1       90.0
-   201907220000            smoke_dust    66218715   SUCCEEDED             0       1       38.0
-   201907220000             prepstart    66219117   SUCCEEDED             0       1       37.0
-   201907220000         get_extrn_ics    66218007   SUCCEEDED             0       1       63.0
-   201907220000        get_extrn_lbcs    66218008   SUCCEEDED             0       1       58.0
-   201907220000       make_ics_mem000    66218716   SUCCEEDED             0       1      152.0
-   201907220000      make_lbcs_mem000    66218717   SUCCEEDED             0       1       79.0
-   201907220000       run_fcst_mem000    66225732   SUCCEEDED             0       1     4462.0
-   201907220000      post_mem000_f000    66229719   SUCCEEDED             0       1      197.0
-   201907220000      post_mem000_f001    66229724   SUCCEEDED             0       1      198.0
-   201907220000      post_mem000_f002    66229720   SUCCEEDED             0       1      202.0
-   201907220000      post_mem000_f003    66229721   SUCCEEDED             0       1      208.0
-   201907220000      post_mem000_f004    66229722   SUCCEEDED             0       1      214.0
-   201907220000      post_mem000_f005    66229726   SUCCEEDED             0       1      216.0
-   201907220000      post_mem000_f006    66229723   SUCCEEDED             0       1      222.0
-   ===========================================================================================
-   201907220600            smoke_dust    66229725   SUCCEEDED             0       1      171.0
-   201907220600             prepstart    66230255   SUCCEEDED             0       1      102.0
-   201907220600         get_extrn_ics    66218009   SUCCEEDED             0       1       63.0
-   201907220600        get_extrn_lbcs    66218010   SUCCEEDED             0       1       58.0
-   201907220600       make_ics_mem000    66218718   SUCCEEDED             0       1      155.0
-   201907220600      make_lbcs_mem000    66218719   SUCCEEDED             0       1       79.0
-   201907220600       run_fcst_mem000    66230376   SUCCEEDED             0       1     4520.0
-   201907220600      post_mem000_f000    66330901   SUCCEEDED             0       1      198.0
-   201907220600      post_mem000_f001    66330897   SUCCEEDED             0       1      208.0
-   201907220600      post_mem000_f002    66330898   SUCCEEDED             0       1      216.0
-   201907220600      post_mem000_f003    66330899   SUCCEEDED             0       1      221.0
-   201907220600      post_mem000_f004    66330902   SUCCEEDED             0       1      216.0
-   201907220600      post_mem000_f005    66330903   SUCCEEDED             0       1      214.0
-   201907220600      post_mem000_f006    66330900   SUCCEEDED             0       1      216.0
+[orion-login smoke_dust_conus3km]$ rocotostat -w FV3LAM_wflow.xml -d FV3LAM_wflow.db -v 10
+       CYCLE                    TASK                       JOBID               STATE         EXIT STATUS     TRIES      DURATION
+================================================================================================================================
+201907220000               make_grid                    18984137           SUCCEEDED                   0         1          29.0
+201907220000               make_orog                    18984148           SUCCEEDED                   0         1         419.0
+201907220000          make_sfc_climo                    18984184           SUCCEEDED                   0         1          82.0
+201907220000              smoke_dust                    18984186           SUCCEEDED                   0         1         243.0
+201907220000               prepstart                    18984324           SUCCEEDED                   0         1          24.0
+201907220000           get_extrn_ics                    18984138           SUCCEEDED                   0         1          11.0
+201907220000          get_extrn_lbcs                    18984149           SUCCEEDED                   0         1          12.0
+201907220000         make_ics_mem000                    18984185           SUCCEEDED                   0         1         157.0
+201907220000        make_lbcs_mem000                    18984187           SUCCEEDED                   0         1          85.0
+201907220000         forecast_mem000                    18984328           SUCCEEDED                   0         1        6199.0
+201907220000    upp_post_mem000_f000                    18988282           SUCCEEDED                   0         1         212.0
+201907220000    upp_post_mem000_f001                    18988283           SUCCEEDED                   0         1         247.0
+201907220000    upp_post_mem000_f002                    18988284           SUCCEEDED                   0         1         258.0
+201907220000    upp_post_mem000_f003                    18988285           SUCCEEDED                   0         1         271.0
+201907220000    upp_post_mem000_f004                    18988286           SUCCEEDED                   0         1         284.0
+201907220000    upp_post_mem000_f005                    18988287           SUCCEEDED                   0         1         286.0
+201907220000    upp_post_mem000_f006                    18988288           SUCCEEDED                   0         1         292.0
+================================================================================================================================
+201907220600              smoke_dust                    18988289           SUCCEEDED                   0         1         225.0
+201907220600               prepstart                    18988302           SUCCEEDED                   0         1         112.0
+201907220600           get_extrn_ics                    18984150           SUCCEEDED                   0         1          10.0
+201907220600          get_extrn_lbcs                    18984151           SUCCEEDED                   0         1          14.0
+201907220600         make_ics_mem000                    18984188           SUCCEEDED                   0         1         152.0
+201907220600        make_lbcs_mem000                    18984189           SUCCEEDED                   0         1          79.0
+201907220600         forecast_mem000                    18988311           SUCCEEDED                   0         1        6191.0
+201907220600    upp_post_mem000_f000                    18989105           SUCCEEDED                   0         1         212.0
+201907220600    upp_post_mem000_f001                    18989106           SUCCEEDED                   0         1         283.0
+201907220600    upp_post_mem000_f002                    18989107           SUCCEEDED                   0         1         287.0
+201907220600    upp_post_mem000_f003                    18989108           SUCCEEDED                   0         1         284.0
+201907220600    upp_post_mem000_f004                    18989109           SUCCEEDED                   0         1         289.0
+201907220600    upp_post_mem000_f005                    18989110           SUCCEEDED                   0         1         294.0
+201907220600    upp_post_mem000_f006                    18989111           SUCCEEDED                   0         1         294.0
 
-If something goes wrong, users can check the log files, which are located by default in ``nco_dirs/test_smoke_dust/com/output/logs/20190722``. 
-
+If something goes wrong, users can check the log files, which are located by default in ``nco_dirs/test_smoke_dust/com/output/logs/20190722``.
 
 WE2E Test for SRW-SD
 =======================
@@ -251,7 +248,7 @@ Build the app for SRW-SD:
 
 .. code-block:: console
 
-  ./devbuild.sh -p=hera --smoke
+  ./app_build.sh -p=<machine>
 
 Add the WE2E test for SRW-SD to the list file:
 
