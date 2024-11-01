@@ -1,3 +1,4 @@
+#!/bin/bash
 # This script rebuilds technical documentation for the ush and tests/WE2E Python scripts
 # The build will fail if there are warnings. 
 # Warnings may be cause by incomplete or nonexistent documentation
