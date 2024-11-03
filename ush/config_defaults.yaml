@@ -2662,7 +2662,7 @@ verification:
                                        {%- if user.RUN_ENVIR == "nco" and global.DO_ENSEMBLE %}
                                          {{- ".${ensmem_name}" }}
                                        {%- endif %}
-                                       {{- ".prslev.f{lead?fmt=%HHH}.${POST_OUTPUT_DOMAIN_NAME}_${VAR}_a${ACCUM_HH}h.nc" }}'
+                                       {{- ".prslev.f{lead?fmt=%HHH}.${POST_OUTPUT_DOMAIN_NAME}_${FIELD_GROUP}_a${ACCUM_HH}h.nc" }}'
   #
   # VX_NDIGITS_ENSMEM_NAMES:
   # Number of digits to assume/use in the forecast ensemble member identifier
