@@ -6,6 +6,7 @@
 
 # Install prerequisites
 sudo apt-get install python3-sphinx
+sudo apt-get install python3-sphinx-rtd-theme
 
 # Remove existing directories
 cd doc/TechDocs
