@@ -134,13 +134,8 @@ Loading the Workflow Environment
 
 The |wflow_env| conda/Python environment can be activated in the following way:
 
-.. code-block:: console
-
-   source /path/to/ufs-srweather-app/etc/lmod-setup.sh <platform>
-   module use /path/to/ufs-srweather-app/modulefiles
-   module load wflow_<platform>
-
-where ``<platform>`` refers to a valid machine name (see :numref:`Section %s <user>` for ``MACHINE`` options). In a csh shell environment, users should replace ``lmod-setup.sh`` with ``lmod-setup.csh``. 
+.. include:: ../../doc-snippets/load-env.rst
+In a csh shell environment, users should replace ``lmod-setup.sh`` with ``lmod-setup.csh``. 
 
 .. note::
    If users source the lmod-setup file on a system that doesn't need it, it will not cause any problems (it will simply do a ``module purge``).
@@ -155,7 +150,7 @@ The ``wflow_<platform>`` modulefile will then output instructions to activate th
 then the user should run |activate|. This activates the |wflow_env| conda environment, and the user typically sees |prompt| in front of the Terminal prompt at this point.
 
 .. note::
-   If users do not use the wflow module to load conda, ``conda`` will need to be initialized before running ``conda activate srw_app`` command. Depending on the user's system and login setup, this may be accomplished in a variety of ways. Conda initialization usually involves the following command: ``source <conda_basedir>/etc/profile.d/conda.sh``, where ``<conda_basedir>`` is the base conda installation directory and by default will be the full path to ``ufs-srweather-app/conda``.
+   If users do not use the ``wflow_<platform>`` module to load conda, ``conda`` will need to be initialized before running ``conda activate srw_app`` command. Depending on the user's system and login setup, this may be accomplished in a variety of ways. Conda initialization usually involves the following command: ``source <conda_basedir>/etc/profile.d/conda.sh``, where ``<conda_basedir>`` is the base conda installation directory and by default will be the full path to ``ufs-srweather-app/conda``.
 
 After loading the workflow environment, users may continue to :numref:`Section %s <ExptConfig>` for instructions on setting the experiment configuration parameters.
 
@@ -691,9 +686,10 @@ that will be used to name the obs files.  (Here, the ``*`` represents any one of
 
 Users who do not have access to NOAA HPSS and do not have the data on their system will need to download
 :term:`CCPA`, :term:`MRMS`, and :term:`NDAS` data manually from collections of publicly available data,
-such as the ones listed here [is there supposed to be a link here?].
+such as the ones listed `here <https://dtcenter.org/nwp-containers-online-tutorial/publicly-available-data-sets>`__. 
 
-Users who have already staged the observation data needed for verification on their system should set
+Users who have already staged the observation data needed for verification on their system (i.e., the 
+:term:`CCPA`, :term:`NOHRSC`, :term:`MRMS`, and/or :term:`NDAS` data) should set
 ``*_OBS_DIR`` and ``OBS_*_FN_TEMPLATES[1]`` in ``config.yaml`` to match those staging locations and
 file names  For example, for a case in which all four types of obs are needed for vx, these variables
 might be set as follows:
@@ -823,7 +819,7 @@ In addition to the baseline tasks described in :numref:`Table %s <WorkflowTasksT
 .. _PlottingTaskTable:
 
 .. list-table:: Plotting Task in the SRW App
-   :widths: 25 75
+   :widths: 20 50
    :header-rows: 1
 
    * - Workflow Task
