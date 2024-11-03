@@ -20,7 +20,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Update tech docs
-        run: .github/scripts/doc_build.sh
+        run: .github/scripts/update_tech_doc.sh
       - name: Build documentation
         run: |
           cd doc
