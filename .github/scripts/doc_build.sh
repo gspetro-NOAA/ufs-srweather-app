@@ -15,8 +15,8 @@ sudo apt-get install python3-sphinx
 echo `pwd`
 cd doc/TechDocs
 ls
-rm -rf ush
-rm -rf tests
+rm -rf TechDocs/ush
+rm -rf TechDocs/tests
 
 # Regenerate docs in ush and tests/WE2E based on current state of scripts in those directories.
 sphinx-apidoc -fM -o TechDocs/ush ../ush
