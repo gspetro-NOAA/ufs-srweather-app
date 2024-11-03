@@ -23,5 +23,7 @@ sphinx-apidoc -fM -o ./TechDocs/tests/WE2E ../../tests/WE2E
 # Need to check if there's a mismatch between what comes out of this build 
 # and what is in the PR. 
 
+git diff
+
 # May be able eventually to add an action that adds the properly built docs to the PR or the target branch
 
