@@ -19,5 +19,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Build documentation
+      - name: Update tech docs
         run: .github/scripts/doc_build.sh
+      - name: Build documentation
+        run: |
+          cd doc
+          make doc
