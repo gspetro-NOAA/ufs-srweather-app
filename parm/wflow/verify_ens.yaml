@@ -39,7 +39,7 @@ metatask_GenEnsProd_EnsembleStat_APCP_all_accums:
     dependency:
       metataskdep_pcpcombine_fcst:
         attrs:
-          metatask: PcpCombine_APCP#ACCUM_HH#h_fcst_all_mems
+          metatask: PcpCombine_APCP#ACCUM_HH#h_all_mems
   task_run_MET_EnsembleStat_vx_APCP#ACCUM_HH#h:
     <<: *task_GenEnsProd_CCPA
     envars:
@@ -144,7 +144,7 @@ metatask_GenEnsProd_EnsembleStat_REFC_RETOP:
 
 metatask_GenEnsProd_EnsembleStat_SFC_UPA:
   var:
-    FIELD_GROUP: '{% for var in verification.VX_FIELD_GROUPS %}{% if var in ["ADPSFC", "ADPUPA"] %}{{ "%s " % var }}{% endif %}{% endfor %}'
+    FIELD_GROUP: '{% for var in verification.VX_FIELD_GROUPS %}{% if var in ["SFC", "UPA"] %}{{ "%s " % var }}{% endif %}{% endfor %}'
   task_run_MET_GenEnsProd_vx_#FIELD_GROUP#: &task_GenEnsProd_NDAS
     <<: *default_task_verify_ens
     command: '&LOAD_MODULES_RUN_TASK; "run_vx" "&JOBSdir;/JREGIONAL_RUN_MET_GENENSPROD_OR_ENSEMBLESTAT"'
@@ -275,7 +275,7 @@ metatask_PointStat_ensmeanprob_SFC_UPA:
     statlc: mean prob
   metatask_PointStat_ens#statlc#_SFC_UPA:
     var:
-      FIELD_GROUP: '{% for var in verification.VX_FIELD_GROUPS %}{% if var in ["ADPSFC", "ADPUPA"] %}{{ "%s " % var }}{% endif %}{% endfor %}'
+      FIELD_GROUP: '{% for var in verification.VX_FIELD_GROUPS %}{% if var in ["SFC", "UPA"] %}{{ "%s " % var }}{% endif %}{% endfor %}'
     task_run_MET_PointStat_vx_ens#statlc#_#FIELD_GROUP#:
       <<: *default_task_verify_ens
       command: '&LOAD_MODULES_RUN_TASK; "run_vx" "&JOBSdir;/JREGIONAL_RUN_MET_GRIDSTAT_OR_POINTSTAT_VX_ENS#stat#"'

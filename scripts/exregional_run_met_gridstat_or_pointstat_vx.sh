@@ -94,8 +94,8 @@ FIELDNAME_IN_FCST_INPUT=""
 FIELDNAME_IN_MET_OUTPUT=""
 FIELDNAME_IN_MET_FILEDIR_NAMES=""
 
-# Note that ACCUM_HH will not be defined for the REFC, RETOP, ADPSFC, and
-# ADPUPA field groups.
+# Note that ACCUM_HH will not be defined for the REFC, RETOP, SFC, and
+# UPA field groups.
 set_vx_params \
   obtype="${OBTYPE}" \
   field_group="${FIELD_GROUP}" \

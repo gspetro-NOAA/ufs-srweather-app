@@ -759,7 +759,7 @@ def setup(USHdir, user_config_fn="config.yaml", debug: bool = False):
            "metatask_GenEnsProd_EnsembleStat_REFC_RETOP",
            "metatask_GridStat_ensprob_REFC_RETOP"]
     
-        vx_field_groups_all_by_obtype["NDAS"] = ["ADPSFC", "ADPUPA"]
+        vx_field_groups_all_by_obtype["NDAS"] = ["SFC", "UPA"]
         vx_metatasks_all_by_obtype["NDAS"] \
         = ["task_get_obs_ndas",
            "task_run_MET_Pb2nc_obs_NDAS",

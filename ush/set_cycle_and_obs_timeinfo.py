@@ -634,7 +634,7 @@ def get_obs_retrieve_times_by_day(
     = [{'obtype': 'CCPA',   'time_type': 'cumul', 'field_groups': ['APCP']},
        {'obtype': 'NOHRSC', 'time_type': 'cumul', 'field_groups': ['ASNOW']},
        {'obtype': 'MRMS',   'time_type': 'inst',  'field_groups': ['REFC', 'RETOP']},
-       {'obtype': 'NDAS',   'time_type': 'inst',  'field_groups': ['ADPSFC', 'ADPUPA']}
+       {'obtype': 'NDAS',   'time_type': 'inst',  'field_groups': ['SFC', 'UPA']}
       ]
 
     # Create new list that has the same form as the list of dictionaries
