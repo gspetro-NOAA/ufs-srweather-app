@@ -63,4 +63,4 @@ verification:
   FCST_FN_TEMPLATE_PCPCOMBINE_OUTPUT: '{{- verification.VX_FCST_MODEL_NAME }}.t00z.pgrb2.0p25.f{lead?fmt=%HHH}_a${ACCUM_HH}h.nc'
   #
   VX_FCST_OUTPUT_INTVL_HRS: 6
-  VX_FIELD_GROUPS: [ "ADPSFC" ]
+  VX_FIELD_GROUPS: [ "SFC" ]
