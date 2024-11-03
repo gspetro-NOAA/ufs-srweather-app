@@ -19,7 +19,7 @@ rm -rf tests
 # Regenerate docs in ush and tests/WE2E based on current state of scripts in those directories.
 sphinx-apidoc -fM -o ./TechDocs/ush ../../ush
 sphinx-apidoc -fM -o ./TechDocs/tests/WE2E ../../tests/WE2E
-
+ls
 # Need to check if there's a mismatch between what comes out of this build 
 # and what is in the PR. 
 
