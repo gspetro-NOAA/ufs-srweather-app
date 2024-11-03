@@ -7,8 +7,8 @@
 
 # Install prerequisites
 apt-get install python3-sphinx
-sphinx_rtd_theme
-sphinxcontrib-bibtex
+#sphinx_rtd_theme
+#sphinxcontrib-bibtex
 
 
 # Remove existing directories
