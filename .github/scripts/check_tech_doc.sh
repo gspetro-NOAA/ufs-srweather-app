@@ -19,7 +19,7 @@ sphinx-apidoc -fM -o ./tests/WE2E ../../tests/WE2E
 # Check for mismatch between what comes out of this action and what is in the PR. 
 status=`git status -s`
 
-if [ -n status ]; then
+if [ status ]; then
   echo "${status}"
   echo ""
   echo "Please update your Technical Documentation RST files."
