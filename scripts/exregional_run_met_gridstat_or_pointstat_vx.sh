@@ -282,7 +282,7 @@ export LOGDIR
 #
 if [ -z "${VX_LEADHR_LIST}" ]; then
   print_err_msg_exit "\
-The list of forecast hours for which to run METplus is empty:
+The list of lead hours for which to run METplus is empty:
   VX_LEADHR_LIST = [${VX_LEADHR_LIST}]"
 fi
 #
