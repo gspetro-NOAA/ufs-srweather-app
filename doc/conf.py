@@ -38,7 +38,7 @@ numfig = True
 
 nitpick_ignore = [('py:class', 'obj'),('py:class', 
                    'yaml.dumper.Dumper'),('py:class', 
-                   'xml.etree.ElementTree'),]
+                   'xml.etree.ElementTree'),('py:class', 'Basemap'),]
 
 # -- General configuration ---------------------------------------------------
 
