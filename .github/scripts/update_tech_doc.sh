@@ -22,6 +22,8 @@ ls ush
 # Check for mismatch between what comes out of this action and what is in the PR. 
 diff=`git diff`
 echo "${diff}"
+git status
+
 
 # Check output from git diff command^ Why no diff on calculate_cost.rst?
 
