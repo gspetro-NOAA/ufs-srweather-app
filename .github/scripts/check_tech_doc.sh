@@ -1,8 +1,6 @@
 #!/bin/bash
-# This script rebuilds technical documentation for the ush and tests/WE2E Python scripts
-# The build will fail if there are warnings. 
-# Warnings may be caused by incomplete or nonexistent documentation
-# as well as by minor issues such as broken external links that need to be fixed or removed
+# This script recreates technical documentation for the ush and tests/WE2E Python scripts
+# If the tech docs produced here do not match the branch's contents, the script will fail
 
 # Install prerequisites
 sudo apt-get install python3-sphinx
@@ -19,22 +17,13 @@ sphinx-apidoc -fM -o ./ush ../../ush
 sphinx-apidoc -fM -o ./tests/WE2E ../../tests/WE2E
 
 # Check for mismatch between what comes out of this action and what is in the PR. 
-diff=`git diff ${BRANCH_NAME} origin/develop`
-echo "${diff}"
 status=`git status`
-echo "${status}"
 
 if [ -n status ]; then
-  echo "${status}"
+  echo "${status}\n"
   echo "Please update your Technical Documentation RST files."
   exit 1
 else
   echo "Technical documentation is up-to-date."
   exit 0
 fi
-
-# Check output from git diff command^ Why no diff on calculate_cost.rst?
-
-
-# May be able eventually to add an action that adds the properly built docs to the PR or the target branch
-

@@ -16,13 +16,11 @@ on:
 jobs:
   doc_tests:
     runs-on: ubuntu-latest
-    env:
-      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Update tech docs
-        run: .github/scripts/update_tech_doc.sh
+      - name: Check tech docs
+        run: .github/scripts/check_tech_doc.sh
       - name: Build documentation
         run: |
           cd doc
