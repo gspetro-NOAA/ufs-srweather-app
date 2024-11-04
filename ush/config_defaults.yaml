@@ -2336,11 +2336,11 @@ global:
   PRINT_DIFF_PGR: false
 
 #----------------------------
-# verification (vx) parameters
+# Verification (VX) parameters
 #-----------------------------
 verification:
   #
-  # General Verification Parameters
+  # General VX Parameters
   # -------------------------------
   #
   # VX_FIELD_GROUPS:
@@ -2397,7 +2397,7 @@ verification:
   # 
   METPLUS_VERBOSITY_LEVEL: 2
   #
-  # Observation-Specific Parameters
+  # VX Parameters for Observations
   # -------------------------------
   #
   # Note:
@@ -2601,7 +2601,7 @@ verification:
   #
   NUM_MISSING_OBS_FILES_MAX: 2
   #
-  # Forecast-Specific Parameters
+  # VX Parameters for Forecasts
   # ----------------------------
   #
   # VX_FCST_MODEL_NAME:
