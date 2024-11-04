@@ -221,18 +221,18 @@ this observation type (obtype) and field group (field_group) combination:
       _grid_or_point_="point"
       case "${field_group}" in
 
-        "ADPSFC")
+        "SFC")
           fieldname_in_obs_input=""
           fieldname_in_fcst_input=""
-          fieldname_in_MET_output="${field_group}"
-          fieldname_in_MET_filedir_names="${field_group}"
+          fieldname_in_MET_output="ADP${field_group}"
+          fieldname_in_MET_filedir_names="ADP${field_group}"
           ;;
 
-        "ADPUPA")
+        "UPA")
           fieldname_in_obs_input=""
           fieldname_in_fcst_input=""
-          fieldname_in_MET_output="${field_group}"
-          fieldname_in_MET_filedir_names="${field_group}"
+          fieldname_in_MET_output="ADP${field_group}"
+          fieldname_in_MET_filedir_names="ADP${field_group}"
           ;;
 
         *)

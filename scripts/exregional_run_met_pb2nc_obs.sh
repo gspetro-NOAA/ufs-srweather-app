@@ -118,7 +118,7 @@ FIELDNAME_IN_MET_FILEDIR_NAMES=""
 
 set_vx_params \
   obtype="${OBTYPE}" \
-  field_group="ADP${FIELD_GROUP}" \
+  field_group="${FIELD_GROUP}" \
   accum_hh="${ACCUM_HH}" \
   outvarname_grid_or_point="grid_or_point" \
   outvarname_fieldname_in_obs_input="FIELDNAME_IN_OBS_INPUT" \
