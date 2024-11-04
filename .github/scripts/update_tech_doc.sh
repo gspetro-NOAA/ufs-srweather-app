@@ -12,15 +12,16 @@ sudo apt-get install python3-sphinx-rtd-theme
 cd doc/TechDocs
 rm -rf ush
 rm -rf tests/WE2E
-echo $PWD
 
 # Regenerate tech docs in ush and tests/WE2E based on current state of scripts in those directories.
 sphinx-apidoc -fM -o ./ush ../../ush
 sphinx-apidoc -fM -o ./tests/WE2E ../../tests/WE2E
-ls
 
 # Check for mismatch between what comes out of this action and what is in the PR. 
-git diff
+diff = $(git diff)
+echo "${diff}
+
+# Check output from git diff command^ Why no diff on calculate_cost.rst?
 
 
 # May be able eventually to add an action that adds the properly built docs to the PR or the target branch
