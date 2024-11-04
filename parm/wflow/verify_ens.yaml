@@ -74,7 +74,7 @@ metatask_GenEnsProd_EnsembleStat_ASNOW_all_accums:
       and:
         metataskdep_pcpcombine_fcst:
           attrs:
-            metatask: PcpCombine_ASNOW#ACCUM_HH#h_fcst_all_mems
+            metatask: PcpCombine_ASNOW#ACCUM_HH#h_all_mems
   task_run_MET_EnsembleStat_vx_ASNOW#ACCUM_HH#h:
     <<: *task_GenEnsProd_NOHRSC
     envars:
