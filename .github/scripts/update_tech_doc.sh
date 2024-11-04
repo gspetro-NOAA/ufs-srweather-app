@@ -17,13 +17,21 @@ rm -rf tests/WE2E
 # Regenerate tech docs in ush and tests/WE2E based on current state of scripts in those directories.
 sphinx-apidoc -fM -o ./ush ../../ush
 sphinx-apidoc -fM -o ./tests/WE2E ../../tests/WE2E
-ls ush
 
 # Check for mismatch between what comes out of this action and what is in the PR. 
-diff=`git diff`
+diff=`git diff ${BRANCH_NAME} origin/develop`
 echo "${diff}"
-git status
+status=`git status`
+echo "${status}"
 
+if [ -n status ]; then
+  echo "${status}"
+  echo "Please update your Technical Documentation RST files."
+  exit 1
+else
+  echo "Technical documentation is up-to-date."
+  exit 0
+fi
 
 # Check output from git diff command^ Why no diff on calculate_cost.rst?
 
