@@ -839,11 +839,11 @@ about metatasks.
 
 .. _VXWorkflowTasksTable:
 
-.. list-table:: Verification (VX) Workflow Tasks and Metatasks in the SRW App
+.. list-table:: Default Verification (VX) Workflow Tasks and Metatasks in the SRW App
    :widths: 5 95
    :header-rows: 1
 
-   * - Workflow Task (``taskgroup``)
+   * - Workflow (Meta)Task (``taskgroup``)
      - Task Description
 
    * - :bolditalic:`task_get_obs_ccpa` (``verify_pre.yaml``)
@@ -1004,41 +1004,41 @@ about metatasks.
        is included in ``VX_FIELD_GROUPS``, and the ones for ``UPA`` are included only if ``DO_ENSEMBLE`` is set to
        ``True`` in ``config.yaml`` and ``'UPA'`` is included in ``VX_FIELD_GROUPS``.
 
-   * - :bolditalic:`metatask_GridStat_ensmeanprob_APCP_all_accums` (``verify_ens.yaml``)
+   * - :bolditalic:`metatask_GridStat_APCP_all_accums_ensmeanprob` (``verify_ens.yaml``)
      - Set of tasks that run grid-to-grid verification of the ensemble mean of APCP and grid-to-grid probabilistic
        verification of the ensemble of APCP forecasts as a whole.  In rocoto, the tasks under this metatask for
-       ensemble mean verification are named ``run_MET_GridStat_vx_ensmean_APCP{accum_intvl}h``, and the ones for
-       ensemble probabilistic verification are named ``run_MET_GridStat_vx_ensprob_APCP{accum_intvl}h``, where
+       ensemble mean verification are named ``run_MET_GridStat_vx_APCP{accum_intvl}h_ensmean``, and the ones for
+       ensemble probabilistic verification are named ``run_MET_GridStat_vx_APCP{accum_intvl}h_ensprob``, where
        ``{accum_intvl}`` is the accumulation interval (in hours, e.g. ``01``, ``03``, ``06``, etc) for which the
        tasks are being run.  This metatask is included in the workflow only if ``DO_ENSEMBLE`` is set to ``True``
        in ``config.yaml`` and ``'APCP'`` is included in ``VX_FIELD_GROUPS``.
 
-   * - :bolditalic:`metatask_GridStat_ensmeanprob_ASNOW_all_accums` (``verify_ens.yaml``)
+   * - :bolditalic:`metatask_GridStat_ASNOW_all_accums_ensmeanprob` (``verify_ens.yaml``)
      - Set of tasks that run grid-to-grid verification of the ensemble mean of ASNOW and grid-to-grid probabilistic
        verification of the ensemble of ASNOW forecasts as a whole.  In rocoto, the tasks under this metatask for
-       ensemble mean verification are named ``run_MET_GridStat_vx_ensmean_ASNOW{accum_intvl}h``, and the ones for
-       ensemble probabilistic verification are named ``run_MET_GridStat_vx_ensprob_ASNOW{accum_intvl}h``, where
+       ensemble mean verification are named ``run_MET_GridStat_vx_ASNOW{accum_intvl}h_ensmean``, and the ones for
+       ensemble probabilistic verification are named ``run_MET_GridStat_vx_ASNOW{accum_intvl}h_ensprob``, where
        ``{accum_intvl}`` is the accumulation interval (in hours, e.g. ``01``, ``03``, ``06``, etc) for which the
        tasks are being run.  These tasks will be included in the workflow only if ``DO_ENSEMBLE`` is set to ``True``
        in ``config.yaml`` and ``'ASNOW'`` is included in ``VX_FIELD_GROUPS``.
 
-   * - :bolditalic:`metatask_GridStat_ensprob_REFC_RETOP` (``verify_ens.yaml``)
+   * - :bolditalic:`metatask_GridStat_REFC_RETOP_ensprob` (``verify_ens.yaml``)
      - Set of tasks that run grid-to-grid probabilistic verification of the ensemble of :term:`composite reflectivity`
        (represented by the verification field group ``REFC``) and :term:`echo top` (represented by the field group
        ``RETOP``).  (Note that there is no grid-to-grid verification of the ensemble mean of these quantities.)
-       In rocoto, the tasks under this metatask are named ``run_MET_GridStat_vx_ensprob_{field_group}``, where
+       In rocoto, the tasks under this metatask are named ``run_MET_GridStat_vx_{field_group}_ensprob``, where
        ``{field_group}`` is the field group (in this case either ``REFC`` or ``RETOP``) for which the task is
        being run.  The task for ``REFC`` is included in the workflow only if ``DO_ENSEMBLE`` is set to ``True``
        in ``config.yaml`` and ``'REFC'`` is included in ``VX_FIELD_GROUPS``, and the one for ``RETOP`` is included 
        only if ``DO_ENSEMBLE`` is set to ``True`` in ``config.yaml`` and ``'RETOP'`` is included in ``VX_FIELD_GROUPS``.
 
-   * - :bolditalic:`metatask_PointStat_ensmeanprob_SFC_UPA` (``verify_ens.yaml``)
+   * - :bolditalic:`metatask_PointStat_SFC_UPA_ensmeanprob` (``verify_ens.yaml``)
      - Set of tasks that run grid-to-grid verification of the ensemble mean of surface fields (represented by the
        verification field group ``SFC``) and upper-air fields (represented by the verification field group ``UPA``)
        as well as grid-to-grid probabilistic verification of the ensemble of the surface and upper-air field
        forecasts as a whole.  In rocoto, the tasks under this metatask for ensemble mean verification are named
-       ``run_MET_PointStat_vx_ensmean_{field_group}``, and the ones for ensemble probabilistic verification are
-       named ``run_MET_PointStat_vx_ensprob_{field_group}``, where ``{field_group}`` is the field group (in this
+       ``run_MET_PointStat_vx_{field_group}_ensmean``, and the ones for ensemble probabilistic verification are
+       named ``run_MET_PointStat_vx_{field_group}_ensprob``, where ``{field_group}`` is the field group (in this
        case either ``SFC`` or ``UPA``) on which the task is being run.  The tasks for ``SFC`` are included in the
        workflow only if ``DO_ENSEMBLE`` is set to ``True`` in ``config.yaml`` and ``'SFC'`` is included in
        ``VX_FIELD_GROUPS``, and the ones for ``UPA`` are included only if ``DO_ENSEMBLE`` is set to ``True`` in

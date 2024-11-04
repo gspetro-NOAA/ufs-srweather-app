@@ -192,14 +192,14 @@ metatask_GenEnsProd_EnsembleStat_SFC_UPA:
           attrs:
             task: run_MET_GenEnsProd_vx_#FIELD_GROUP#
 
-metatask_GridStat_ensmeanprob_APCP_all_accums:
+metatask_GridStat_APCP_all_accums_ensmeanprob:
   var:
     stat: MEAN PROB
     statlc: mean prob
-  metatask_GridStat_ens#statlc#_APCP_all_accums:
+  metatask_GridStat_APCP_all_accums_ens#statlc#:
     var:
       ACCUM_HH: '{% for ah in verification.VX_APCP_ACCUMS_HRS %}{% if workflow.FCST_LEN_HRS >= ah %}{{ "%02d " % ah }}{% endif %}{% endfor %}'
-    task_run_MET_GridStat_vx_ens#statlc#_APCP#ACCUM_HH#h:
+    task_run_MET_GridStat_vx_APCP#ACCUM_HH#h_ens#statlc#:
       <<: *default_task_verify_ens
       command: '&LOAD_MODULES_RUN_TASK; "run_vx" "&JOBSdir;/JREGIONAL_RUN_MET_GRIDSTAT_OR_POINTSTAT_VX_ENS#stat#"'
       envars:
@@ -219,14 +219,14 @@ metatask_GridStat_ensmeanprob_APCP_all_accums:
             attrs:
               task: run_MET_GenEnsProd_vx_APCP#ACCUM_HH#h
 
-metatask_GridStat_ensmeanprob_ASNOW_all_accums:
+metatask_GridStat_ASNOW_all_accums_ensmeanprob:
   var:
     stat: MEAN PROB
     statlc: mean prob
-  metatask_GridStat_ens#statlc#_ASNOW_all_accums:
+  metatask_GridStat_ASNOW_all_accums_ens#statlc#:
     var:
       ACCUM_HH: '{% for ah in verification.VX_ASNOW_ACCUMS_HRS %}{% if workflow.FCST_LEN_HRS >= ah %}{{ "%02d " % ah }}{% endif %}{% endfor %}'
-    task_run_MET_GridStat_vx_ens#statlc#_ASNOW#ACCUM_HH#h:
+    task_run_MET_GridStat_vx_ASNOW#ACCUM_HH#h_ens#statlc#:
       <<: *default_task_verify_ens
       command: '&LOAD_MODULES_RUN_TASK; "run_vx" "&JOBSdir;/JREGIONAL_RUN_MET_GRIDSTAT_OR_POINTSTAT_VX_ENS#stat#"'
       envars:
@@ -246,10 +246,10 @@ metatask_GridStat_ensmeanprob_ASNOW_all_accums:
             attrs:
               task: run_MET_GenEnsProd_vx_ASNOW#ACCUM_HH#h
 
-metatask_GridStat_ensprob_REFC_RETOP:
+metatask_GridStat_REFC_RETOP_ensprob:
   var:
     FIELD_GROUP: '{% for var in verification.VX_FIELD_GROUPS %}{% if var in ["REFC", "RETOP"] %}{{ "%s " % var }}{% endif %}{% endfor %}'
-  task_run_MET_GridStat_vx_ensprob_#FIELD_GROUP#:
+  task_run_MET_GridStat_vx_#FIELD_GROUP#_ensprob:
     <<: *default_task_verify_ens
     command: '&LOAD_MODULES_RUN_TASK; "run_vx" "&JOBSdir;/JREGIONAL_RUN_MET_GRIDSTAT_OR_POINTSTAT_VX_ENSPROB"'
     envars:
@@ -269,14 +269,14 @@ metatask_GridStat_ensprob_REFC_RETOP:
           attrs:
             task: run_MET_GenEnsProd_vx_#FIELD_GROUP#
 
-metatask_PointStat_ensmeanprob_SFC_UPA:
+metatask_PointStat_SFC_UPA_ensmeanprob:
   var:
     stat: MEAN PROB
     statlc: mean prob
-  metatask_PointStat_ens#statlc#_SFC_UPA:
+  metatask_PointStat_SFC_UPA_ens#statlc#:
     var:
       FIELD_GROUP: '{% for var in verification.VX_FIELD_GROUPS %}{% if var in ["SFC", "UPA"] %}{{ "%s " % var }}{% endif %}{% endfor %}'
-    task_run_MET_PointStat_vx_ens#statlc#_#FIELD_GROUP#:
+    task_run_MET_PointStat_vx_#FIELD_GROUP#_ens#statlc#:
       <<: *default_task_verify_ens
       command: '&LOAD_MODULES_RUN_TASK; "run_vx" "&JOBSdir;/JREGIONAL_RUN_MET_GRIDSTAT_OR_POINTSTAT_VX_ENS#stat#"'
       envars:

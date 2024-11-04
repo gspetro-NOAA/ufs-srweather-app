@@ -741,7 +741,7 @@ def setup(USHdir, user_config_fn="config.yaml", debug: bool = False):
            "metatask_PcpCombine_APCP_all_accums_all_mems",
            "metatask_GridStat_APCP_all_accums_all_mems",
            "metatask_GenEnsProd_EnsembleStat_APCP_all_accums",
-           "metatask_GridStat_ensmeanprob_APCP_all_accums"]
+           "metatask_GridStat_APCP_all_accums_ensmeanprob"]
     
         vx_field_groups_all_by_obtype["NOHRSC"] = ["ASNOW"]
         vx_metatasks_all_by_obtype["NOHRSC"] \
@@ -750,14 +750,14 @@ def setup(USHdir, user_config_fn="config.yaml", debug: bool = False):
            "metatask_PcpCombine_ASNOW_all_accums_all_mems",
            "metatask_GridStat_ASNOW_all_accums_all_mems",
            "metatask_GenEnsProd_EnsembleStat_ASNOW_all_accums",
-           "metatask_GridStat_ensmeanprob_ASNOW_all_accums"]
+           "metatask_GridStat_ASNOW_all_accums_ensmeanprob"]
     
         vx_field_groups_all_by_obtype["MRMS"] = ["REFC", "RETOP"]
         vx_metatasks_all_by_obtype["MRMS"] \
         = ["task_get_obs_mrms",
            "metatask_GridStat_REFC_RETOP_all_mems",
            "metatask_GenEnsProd_EnsembleStat_REFC_RETOP",
-           "metatask_GridStat_ensprob_REFC_RETOP"]
+           "metatask_GridStat_REFC_RETOP_ensprob"]
     
         vx_field_groups_all_by_obtype["NDAS"] = ["SFC", "UPA"]
         vx_metatasks_all_by_obtype["NDAS"] \
@@ -765,7 +765,7 @@ def setup(USHdir, user_config_fn="config.yaml", debug: bool = False):
            "task_run_MET_Pb2nc_obs_NDAS",
            "metatask_PointStat_SFC_UPA_all_mems",
            "metatask_GenEnsProd_EnsembleStat_SFC_UPA",
-           "metatask_PointStat_ensmeanprob_SFC_UPA"]
+           "metatask_PointStat_SFC_UPA_ensmeanprob"]
     
         # If there are no field groups specified for verification, remove those
         # tasks that are common to all observation types.
