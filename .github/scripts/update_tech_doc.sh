@@ -7,7 +7,6 @@
 # Install prerequisites
 sudo apt-get install python3-sphinx
 sudo apt-get install python3-sphinx-rtd-theme
-# sudo apt-get install python-sphinxcontrib-bibtex
 pip install sphinxcontrib-bibtex
 
 # Remove existing directories
@@ -22,7 +21,7 @@ ls ush
 
 # Check for mismatch between what comes out of this action and what is in the PR. 
 diff=`git diff`
-echo "${diff}
+echo "${diff}"
 
 # Check output from git diff command^ Why no diff on calculate_cost.rst?
 
