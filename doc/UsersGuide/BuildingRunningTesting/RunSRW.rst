@@ -641,12 +641,21 @@ To use METplus verification,  MET and METplus modules need to be installed. To t
      tasks:
        taskgroups: '{{ ["parm/wflow/prep.yaml", "parm/wflow/coldstart.yaml", "parm/wflow/post.yaml", "parm/wflow/verify_pre.yaml", "parm/wflow/verify_det.yaml"]|include }}'
 
-:numref:`Table %s <VX-yamls>` indicates which verification capabilities/workflow tasks each ``verify_*.yaml`` file enables.
-Users must add ``verify_pre.yaml`` anytime they want to run verification (VX); it runs preprocessing tasks that are necessary
-for both deterministic and ensemble VX, including retrieval of obs files from various data stores (e.g. NOAA's HPSS) if those
-files do not already exist on disk at the locations specified by some of the parameters in the ``verification:`` section of
-``config_defaults.yaml`` and/or ``config.yaml`` (see ?? for details).
-Then users can add ``verify_det.yaml`` for deterministic VX or ``verify_ens.yaml`` for ensemble VX (or both). Note that ensemble VX requires the user to be running an ensemble forecast or to stage ensemble forecast files in an appropriate location.
+:numref:`Table %s <VX-yamls>` indicates which workflow (meta)tasks each ``verify_*.yaml`` file enables.
+Users must include ``verify_pre.yaml`` anytime they want to run verification (VX) because this contains
+preprocessing tasks that are necessary for both deterministic and ensemble VX, including retrieval of
+obs files from various data stores (e.g. NOAA HPSS) if those files do not already exist on disk (the
+files must exist at the locations specified by the variables ``*_OBS_DIR`` and ``OBS_*_FN_TEMPLATES[1]``
+in the ``verification:`` section of ``config.yaml``; see discussion below for details).
+Then users can add ``verify_det.yaml`` for deterministic VX, ``verify_ens.yaml`` for ensemble VX,
+or both if they want to run ensemble VX on an ensemble forecast but also run deterministic VX on
+each ensemble member.
+
+Note that ensemble VX requires the user to either run an ensemble forecast with the SRW App or to stage
+ensemble forecast files (at the locations specified by the variables ``VX_FCST_INPUT_BASEDIR``,
+``FCST_SUBDIR_TEMPLATE``, and ``FCST_FN_TEMPLATE`` in the ``verification:`` section of ``config.yaml``).
+In either case, ``DO_ENSEMBLE`` in ``config.yaml`` must be set to ``True``.
+
 
 .. _VX-yamls:
 
@@ -659,11 +668,16 @@ Then users can add ``verify_det.yaml`` for deterministic VX or ``verify_ens.yaml
    * - verify_pre.yaml
      - Enables (meta)tasks that are prerequisites for both deterministic and ensemble verification (vx)
    * - verify_det.yaml
-     - Enables (meta)tasks that perform deterministic vx on a single forecast or on each member of an ensemble forecast
+     - Enables (meta)tasks that perform deterministic VX on a single forecast or on each member of an ensemble forecast
    * - verify_ens.yaml
-     - Enables (meta)tasks that perform ensemble vx on an ensemble of forecasts as a whole (must set ``DO_ENSEMBLE: true`` in ``config.yaml``)
+     - Enables (meta)tasks that perform ensemble VX on an ensemble of forecasts as a whole (requires ``DO_ENSEMBLE``
+       to be set to ``True`` in ``config.yaml``)
 
-The ``verify_*.yaml`` files include the definitions of several common verification tasks by default. Individual verification tasks appear in :numref:`Table %s <VXWorkflowTasksTable>`. The tasks in the ``verify_*.yaml`` files are independent of each other, so users may want to turn some off depending on the needs of their experiment. To turn off a task, simply include its entry from ``verify_*.yaml`` as an empty YAML entry in ``config.yaml``. For example, to turn off PointStat tasks:
+The ``verify_*.yaml`` files include by default the definitions of several common verification tasks and metatasks.
+These default verification (meta)tasks are described in :numref:`Table %s <VXWorkflowTasksTable>`. The tasks in the
+``verify_*.yaml`` files are independent of each other, so users may want to turn some off depending on the needs of
+their experiment. To turn off a task, simply include its entry from ``verify_*.yaml`` as an empty YAML entry in
+``config.yaml``. For example, to turn off PointStat tasks:
 
 .. code-block:: console
 
@@ -676,22 +690,23 @@ The ``verify_*.yaml`` files include the definitions of several common verificati
 
 More information about configuring the ``rocoto:`` section can be found in :numref:`Section %s <DefineWorkflow>`.
 
-If users have access to NOAA :term:`HPSS` but have not pre-staged the obs data, the default ``verify_pre.yaml``
-taskgroup will activate a set of ``get_obs_...`` workflow tasks that will attempt to retrieve the required
+If users have access to NOAA :term:`HPSS` but have not pre-staged the obs data, the taskgroup in ``verify_pre.yaml``
+will by default activate a set of ``get_obs_...`` workflow tasks that will attempt to retrieve the required
 files from a data store such as NOAA HPSS. In this case, the variables ``*_OBS_DIR`` in ``config.yaml`` must
 be set to the base directories under which users want the files to reside, and the variables ``OBS_*_FN_TEMPLATES[1]``
 must be set to METplus file name templates (possibly including leading subdirectories relative to ``*_OBS_DIR``)
 that will be used to name the obs files.  (Here, the ``*`` represents any one of the obs types :term:`CCPA`,
-:term:`NOHRSC`, :term:`MRMS`, and :term:`NDAS`.)
+:term:`NOHRSC`, :term:`MRMS`, and :term:`NDAS`, and the ``[1]`` in ``OBS_*_FN_TEMPLATES[1]`` refers to the second
+element of ``OBS_*_FN_TEMPLATES``; the first element should not be changed).
 
 Users who do not have access to NOAA HPSS and do not have the data on their system will need to download
-:term:`CCPA`, :term:`MRMS`, and :term:`NDAS` data manually from collections of publicly available data,
-such as the ones listed `here <https://dtcenter.org/nwp-containers-online-tutorial/publicly-available-data-sets>`__. 
+:term:`CCPA`, :term:`NOHRSC`, :term:`MRMS`, and/or :term:`NDAS` data manually from collections of publicly
+available data, such as the ones listed `here <https://dtcenter.org/nwp-containers-online-tutorial/publicly-available-data-sets>`__. 
 
 Users who have already staged the observation data needed for verification on their system (i.e., the 
 :term:`CCPA`, :term:`NOHRSC`, :term:`MRMS`, and/or :term:`NDAS` data) should set
 ``*_OBS_DIR`` and ``OBS_*_FN_TEMPLATES[1]`` in ``config.yaml`` to match those staging locations and
-file names  For example, for a case in which all four types of obs are needed for vx, these variables
+file names. For example, for a case in which all four types of obs are needed for VX, these variables
 might be set as follows:
 
 .. code-block:: console
@@ -709,19 +724,58 @@ might be set as follows:
                                'RETOP', '{valid?fmt=%Y%m%d}/EchoTop_18_00.50_{valid?fmt=%Y%m%d}-{valid?fmt=%H%M%S}.grib2' ]
       OBS_NDAS_FN_TEMPLATES: [ 'SFC_UPA', 'prepbufr.ndas.{valid?fmt=%Y%m%d%H}' ]
 
-If one of the days encompassed by the experiment was 20240429, and if one of the hours during
-that day at which vx will be performed was 03, then, taking the CCPA obs type as an example, 
+If one of the days encompassed by the experiment is 20240429, and if one of the hours during
+that day at which VX will be performed is 03, then, taking the CCPA obs type as an example, 
 one of the ``get_obs_ccpa_...`` tasks in the workflow will look for a CCPA file on disk 
 corresponding to this day and hour at
 
 ``/path/to/UFS_SRW_data/develop/obs_data/ccpa/20240429/ccpa.t03z.01h.hrap.conus.gb2``
 
-As described above, if this file does not exist, it will try to retrieve it from a data store
-and place it at this location.
+As described above, if this file does not exist, the ``get_obs`` task will try to retrieve it
+from a data store and place it at this location.
 
 After adding the VX tasks to the ``rocoto:`` section and the data paths to the ``verification:``
 section, users can proceed to generate the experiment, which will perform VX tasks in addition
 to the default workflow tasks.
+
+
+Note that inclusion of the ``verify_*.yaml`` files under the ``rocoto: tasks: taskgroups:`` section of
+``config.yaml`` does not mean all the (eta)tasks in those files will necessarily be included in the workflow.  
+This is because the VX tasks are grouped into field groups, and only those (meta)tasks in ``verify_*.yaml``
+associated with field groups that are included in the list ``VX_FIELD_GROUPS`` in ``config.yaml``
+are included in the worklow.
+Each field group represents one or more meteorologial fields that can be verified.  The valid field
+groups and their descriptions are given in :numref:`Table %s <VXFieldGroupDescsTable>`. 
+Thus, setting
+
+.. code-block:: console
+
+   VX_FIELD_GROUPS: [ 'APCP', 'REFC', 'RETOP', 'SFC', 'UPA' ]
+
+will run the VX (meta)tasks for all field groups except accumulated snowfall.
+
+
+.. _VXFieldGroupDescsTable:
+
+.. list-table:: Valid Verification Field Groups and Descriptions
+   :widths: 20 50
+   :header-rows: 1
+
+   * - Field Group
+     - Description
+   * - APCP
+     - Accumulated precipitation for the accumulation intervals specified in ``VX_APCP_ACCUMS_HRS``
+   * - ASNOW
+     - Accumulated snowfall for the accumulation intervals specified in ``VX_APCP_ACCUMS_HRS``
+   * - REFC 
+     - Composite reflectivity
+   * - RETOP 
+     - Echo top
+   * - SFC
+     - Surface fields
+   * - UPA
+     - Upper-air fields
+
 
 .. _GenerateWorkflow: 
 
@@ -827,15 +881,14 @@ In addition to the baseline tasks described in :numref:`Table %s <WorkflowTasksT
    * - plot_allvars
      - Run the plotting task and, optionally, the difference plotting task
 
-METplus verification tasks and metatasks are described in :numref:`Table %s <VXWorkflowTasksTable>` below.
-The ``taskgroup`` entry after the name of each task or metatask indicates the taskgroup file that must be
-included in the user's ``config.yaml`` file under ``rocoto: tasks: taskgroups:`` in order for that task or
-metatask to be considered for inclusion in the workflow (see :numref:`Section %s <DefineWorkflow>` for more
-details). Metatasks define a set of tasks in the workflow based on multiple values of one or more parameters
-such as the ensemble member index, the accumulation interval (for cumulative fields such as accumulated
-precipitation), and the name of the verificaiton field group (see description of ``VX_FIELD_GROUPS`` in
-:numref:`Section %s <GeneralVXParams>`).  See :numref:`Section %s <defining_metatasks>` for more details
-about metatasks.
+The METplus verification tasks and metatasks that are included by default in ``verify_*.yaml`` are described
+in :numref:`Table %s <VXWorkflowTasksTable>`. The ``taskgroup`` entry after the name of each (meta)task indicates
+the taskgroup file that must be included in the user's ``config.yaml`` file under ``rocoto: tasks: taskgroups:``
+in order for that (meta)task to be considered for inclusion in the workflow (see :numref:`Section %s <DefineWorkflow>`
+for details). As described in  :numref:`Section %s <defining_metatasks>`, metatasks define a set of tasks in the
+workflow based on multiple values of one or more parameters such as the ensemble member index, the accumulation
+interval (for cumulative fields such as accumulated precipitation), and the name of the verificaiton field group
+(see description of ``VX_FIELD_GROUPS`` in :numref:`Section %s <GeneralVXParams>`).
 
 .. _VXWorkflowTasksTable:
 
