@@ -622,7 +622,7 @@ The output files (in ``.png`` format) will be located in the ``postprd`` directo
 Configure METplus Verification Suite (Optional)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Users who want to use the METplus verification suite to evaluate their forecasts need to add additional information to their machine file (``ush/machine/<platform>.yaml``) [what would need to change in the machine file?] or their ``config.yaml`` file. Other users may skip to the next step (:numref:`Section %s: Generate the SRW App Workflow <GenerateWorkflow>`). 
+Users who want to use the METplus verification suite to evaluate their forecasts need to add additional information to their machine file (``ush/machine/<platform>.yaml``) or their ``config.yaml`` file. Other users may skip to the next step (:numref:`Section %s: Generate the SRW App Workflow <GenerateWorkflow>`). 
 
 .. note::
    If METplus users update their METplus installation, they must update the module load statements in ``ufs-srweather-app/modulefiles/tasks/<machine>/run_vx.local`` to correspond to their system's updated installation:
