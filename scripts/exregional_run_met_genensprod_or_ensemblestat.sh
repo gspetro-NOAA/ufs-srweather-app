@@ -307,7 +307,7 @@ fi
 #
 metplus_config_tmpl_bn="${MetplusToolName}"
 metplus_config_bn="${MetplusToolName}_${FIELDNAME_IN_MET_FILEDIR_NAMES}"
-metplus_log_bn="${metplus_config_bn}"
+metplus_log_bn="${metplus_config_bn}_$CDATE"
 #
 # Add prefixes and suffixes (extensions) to the base file names.
 #
