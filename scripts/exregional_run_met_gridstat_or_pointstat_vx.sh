@@ -69,7 +69,7 @@ Entering script:  \"${scrfunc_fn}\"
 In directory:     \"${scrfunc_dir}\"
 
 This is the ex-script for the task that runs the METplus ${MetplusToolName}
-tool to perform deterministic verification of the specified field gropup 
+tool to perform deterministic verification of the specified field group 
 (FIELD_GROUP) for a single forecast.
 ========================================================================"
 #
