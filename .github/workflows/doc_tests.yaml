@@ -9,9 +9,9 @@ on:
     branches:
       - 'feature/doc-actions'
 
-#defaults:
-#  run:
-#    shell: bash -leo pipefail {0}
+defaults:
+  run:
+    shell: bash -leo pipefail {0}
 
 jobs:
   doc_tests:
