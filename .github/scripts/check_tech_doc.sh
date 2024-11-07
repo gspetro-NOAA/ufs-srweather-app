@@ -5,8 +5,8 @@
 set -eo pipefail
 
 # Install prerequisites
-pip install sphinx>=7.4
-pip install sphinx-rtd-theme
+sudo apt-get install python3-sphinx
+sudo apt-get install python3-sphinx-rtd-theme
 pip install sphinxcontrib-bibtex
 
 # Regenerate tech docs in ush and tests/WE2E based on current state of scripts in those directories.
