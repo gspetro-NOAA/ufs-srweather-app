@@ -5,7 +5,7 @@
 set -eo pipefail
 
 # Install prerequisites
-pip install sphinx
+pip install sphinx>=7.4
 pip install sphinx-rtd-theme
 pip install sphinxcontrib-bibtex
 
