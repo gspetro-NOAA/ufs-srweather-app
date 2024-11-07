@@ -5,6 +5,7 @@ ush
    :maxdepth: 4
 
    UFS_plot_domains
+   calculate_cost
    check_python_version
    config_utils
    create_aqm_rc_file
@@ -25,5 +26,4 @@ ush
    set_gridparams_GFDLgrid
    set_predef_grid_params
    setup
-   test
    update_input_nml
