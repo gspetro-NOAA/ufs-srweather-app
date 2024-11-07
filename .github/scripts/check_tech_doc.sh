@@ -7,14 +7,10 @@ sudo apt-get install python3-sphinx
 sudo apt-get install python3-sphinx-rtd-theme
 pip install sphinxcontrib-bibtex
 
-# Remove existing directories
-cd doc/TechDocs
-rm -rf ush
-rm -rf tests/WE2E
-
 # Regenerate tech docs in ush and tests/WE2E based on current state of scripts in those directories.
-sphinx-apidoc -fM -o ./ush ../../ush
-sphinx-apidoc -fM -o ./tests/WE2E ../../tests/WE2E
+cd doc/TechDocs
+sphinx-apidoc -fM --remove-old -o ./ush ../../ush
+sphinx-apidoc -fM --remove-old -o ./tests/WE2E ../../tests/WE2E
 
 # Check for mismatch between what comes out of this action and what is in the PR. 
 status=`git status -s`
