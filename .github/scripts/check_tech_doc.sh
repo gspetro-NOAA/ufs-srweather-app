@@ -2,9 +2,11 @@
 # This script recreates technical documentation for the ush and tests/WE2E Python scripts
 # If the tech docs produced here do not match the branch's contents, the script will fail
 
+set -eo pipefail
+
 # Install prerequisites
-sudo apt-get install python3-sphinx
-sudo apt-get install python3-sphinx-rtd-theme
+pip install sphinx
+pip install sphinx-rtd-theme
 pip install sphinxcontrib-bibtex
 
 # Regenerate tech docs in ush and tests/WE2E based on current state of scripts in those directories.
