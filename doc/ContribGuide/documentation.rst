@@ -83,7 +83,7 @@ Technical Documentation Guidelines
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Technical (API-like) documentation is generated for any Python scripts in the ``ush`` or ``tests/WE2E`` directories. 
-When developers change Python files in these directories, they need to update the Python docstrings (i.e., comments in """triple quotes""") to reflect the changes they made. 
+When developers change Python files in these directories, they need to update the Python docstrings (i.e., comments in ``"""triple quotes"""``) to reflect the changes they made. 
 Each Python script should include: 
 
    * A summary of the script's purpose/functionality
@@ -94,9 +94,29 @@ Each Python script should include:
 
       * A description of what the method does (starting with a verb, e.g., "checks" or "parses")
       * A list of method parameters, or ``Args:``, with a definition and expected data type for each
-      * A return statement (``Returns:``) --- if applicable
-      * List of exceptions (``Raises:``) --- if applicable
+      * A return statement (``Returns:``) -- if applicable
+      * List of exceptions (``Raises:``) -- if applicable
 
 .. note:: 
    
-   Python does not have truly private methods, but methods that start with an underscore are the closest equivalent. In the SRW App, the underscore signals that this method is only accessed by the script within which it is called.  
+   Python does not have truly private methods, but methods that start with an underscore are the closest equivalent. In the SRW App, the underscore signals that this method is only accessed by the script within which it is called. 
+
+After updating the docstrings, developers need to update the corresponding RST files. 
+To do this successfully, developers must have *sphinx>=7.4.0* installed on their system. To update the RST files, run: 
+
+.. code-block:: console
+
+   cd ufs-srweather-app/doc/TechDoc
+   sphinx-apidoc -fM --remove-old -o ./ush ../../ush
+   sphinx-apidoc -fM --remove-old -o ./tests/WE2E ../../tests/WE2E
+
+.. note:: 
+
+   Developers who do not have *sphinx>=7.4.0* installed may issue the following commands from ``ufs-srweather-app/doc/TechDoc`` before running the sphinx-apidoc commands above: 
+
+   .. code-block:: console
+
+      rm -rf ush
+      rm -rf tests/WE2E
+   
+   This will delete current RST files before recreating them with the ``sphinx-apidoc`` command based on the current contents of ``ush`` and ``tests/WE2E``. This step is necessary because the ``--remove-old`` flag does not work with earlier versions of sphinx. 
