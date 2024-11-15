@@ -61,7 +61,7 @@ Load the workflow environment:
 .. code-block:: console
 
    module purge
-   source /path/to/ufs-srweather-app/modulefiles/versions/run.ver_orion
+   source /path/to/ufs-srweather-app/modulefiles/versions/run.ver_<machine>
    module use /path/to/ufs-srweather-app/modulefiles
    module load wflow_<machine>
 
@@ -92,10 +92,12 @@ On Level 1 systems, users can find :term:`ICs/LBCs` for the SRW-SD sample case i
      EXTRN_MDL_SOURCE_BASEDIR_LBCS: /scratch2/NCEPDEV/naqfc/Chan-hoo.Jeon/aqm_sample_data/RAP_DATA_SD/${yyyymmddhh} # hera
 #  EXTRN_MDL_SOURCE_BASEDIR_LBCS: /work/noaa/epic/SRW-AQM_DATA/input_model_data/RAP/${yyyymmddhh} # orion/hercules
 
-Note that users on other systems will need to use the correct data path for their system. Data is available on other Level 1 systems for those interested in tinkering with the workflow.
+In addition to the UFS-SRW fix files, additional data files are required to run the smoke and dust experiment:
+* ``fix_smoke``: Contains analysis grids, regridding weights, a vegetation map, and dummy emissions (used when no in-situe emission files are available).
+* ``data_smoke_dust/RAVE_fire``: Emission estimates and Fire Radiative Power (FRP) observations derived from `RAVE <https://www.ospo.noaa.gov/products/land/rave/>`_ satellite observations.
 
-.. COMMENT: Data not in bucket yet. Path needs changing. 
-   Users can also download the data required for the community experiment from the `UFS SRW App Data Bucket <https://noaa-ufs-srw-pds.s3.amazonaws.com/index.html#develop-20240618/input_model_data/FV3GFS/netcdf/>`_. 
+.. note::
+   Smoke and dust fix file data has not been added to the S3 bucket. If you would like access to the fix file data necessary to run the application, please reach out the UFS-SRW team in a GitHub discussion.
 
 Users may also wish to change :term:`cron`-related parameters in ``config.yaml``. In the ``config.smoke_dust.yaml`` file, which was copied into ``config.yaml``, cron is used for automatic submission and resubmission of the workflow:
 
@@ -108,9 +110,6 @@ Users may also wish to change :term:`cron`-related parameters in ``config.yaml``
 This means that cron will submit the launch script every 3 minutes. Users may choose not to submit using cron or to submit at a different frequency. Note that users should create a crontab by running ``crontab -e`` the first time they use cron.
 
 When using the basic ``config.smoke_dust.yaml`` experiment, the usual pre-processing and coldstart forecast tasks are used, because ``"parm/wflow/prep.yaml"`` appears in the list of workflow files in the ``rocoto: tasks: taskgroups:`` section of ``config.yaml`` (see :numref:`Section %s <TasksPrepAQM>` for task descriptions). To turn on AQM *post*-processing tasks in the workflow, include ``"parm/wflow/aqm_post.yaml"`` in the ``rocoto: tasks: taskgroups:`` section, too (see :numref:`Section %s <TasksPostAQM>` for task descriptions).
-
-.. COMMENT: Update wflow info above! 
-
 
 .. _srw-sd-more-tasks:
 
@@ -152,14 +151,22 @@ The new tasks for SRW-SD are shown in :numref:`Table %s <pre-srw-sd>`.
      - Performs post-processing with UPP.
      - ``parm/wflow/upp_post.yaml``
 
+.. list-table:: *Python Scripts Used by Smoke and Dust Tasks*
+   :widths: 20 50 30
+   :header-rows: 1
 
-.. COMMENT: Add info about Python scripts
-   Python scripts:
-      * ush/generate_fire_emissions.py
-      * ush/HWP_tools.py
-      * ush/interp_tools.py
-      * ush/add_smoke.py
-
+   * - Script
+     - Description
+   * - ``ush/smoke_dust_add_smoke.py``
+     - Transfers smoke and dust related variables from FV3 tracer outputs to GFS initial conditions.
+   * - ``ush/smoke_dust_fire_emiss_tools.py``
+     - Calculates fire behavior and emission variables and creates input for the smoke and dust tracers.
+   * - ``ush/smoke_dust_generate_fire_emissions.py``
+     - Entrypoint for the smoke and dust fire-related initial conditions generated during the ``smoke_dust`` task.
+   * - ``ush/smoke_dust_hwp_tools.py``
+     - Utilities for calculating Hourly Wildfire Potential (HWP).
+   * - ``ush/smoke_dust_interp_tools.py``
+     - Regridding utilities using `esmpy <https://earthsystemmodeling.org/esmpy/>`_ that interpolate data from the RAVE observational grid to the RRFS grid.
 
 Generate the Workflow
 ------------------------
