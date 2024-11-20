@@ -158,11 +158,11 @@ The new tasks for SRW-SD are shown in :numref:`Table %s <pre-srw-sd>`.
    * - Script
      - Description
    * - ``ush/smoke_dust_add_smoke.py``
-     - Transfers smoke and dust related variables from FV3 tracer outputs to GFS initial conditions.
+     - Transfers smoke and dust-related variables from FV3 tracer outputs to GFS initial conditions.
    * - ``ush/smoke_dust_fire_emiss_tools.py``
      - Calculates fire behavior and emission variables and creates input for the smoke and dust tracers.
    * - ``ush/smoke_dust_generate_fire_emissions.py``
-     - Entrypoint for the smoke and dust fire-related initial conditions generated during the ``smoke_dust`` task.
+     - Entry point for the smoke and dust fire-related initial conditions generated during the ``smoke_dust`` task.
    * - ``ush/smoke_dust_hwp_tools.py``
      - Utilities for calculating Hourly Wildfire Potential (HWP).
    * - ``ush/smoke_dust_interp_tools.py``
