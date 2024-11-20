@@ -81,7 +81,7 @@ Users will need to configure their experiment by setting parameters in the ``con
    
 Users will need to change the ``ACCOUNT`` variable in ``config.yaml`` to an account they have access to. They may also wish to adjust other experiment settings. For more information on each task and variable, see :numref:`Section %s <ConfigWorkflow>`. 
 
-On Level 1 systems, users can find :term:`ICs/LBCs` for the SRW-SD sample case in the usual :ref:`input data locations <Data>` under ``RAP/2019072200``. Users will need to switch the data directory for :term:`ICs/LBCs` if running on Orion or Hercules, on the following lines in ``config.yaml/task_get_extrn_*:``:
+If running on Orion or Hercules, users will need to change the data paths to :term:`ICs/LBCs` on the following lines in ``config.yaml/task_get_extrn_*:``:
 
 .. code-block:: console
 
@@ -92,12 +92,12 @@ On Level 1 systems, users can find :term:`ICs/LBCs` for the SRW-SD sample case i
      EXTRN_MDL_SOURCE_BASEDIR_LBCS: /scratch2/NCEPDEV/naqfc/Chan-hoo.Jeon/aqm_sample_data/RAP_DATA_SD/${yyyymmddhh} # hera
 #  EXTRN_MDL_SOURCE_BASEDIR_LBCS: /work/noaa/epic/SRW-AQM_DATA/input_model_data/RAP/${yyyymmddhh} # orion/hercules
 
-In addition to the UFS-SRW fix files, additional data files are required to run the smoke and dust experiment:
-* ``fix_smoke``: Contains analysis grids, regridding weights, a vegetation map, and dummy emissions (used when no in-situe emission files are available).
+In addition to the UFS SRW fixed files, additional data files are required to run the smoke and dust experiment:
+* ``fix_smoke``: Contains analysis grids, regridding weights, a vegetation map, and dummy emissions (used when no in situ emission files are available).
 * ``data_smoke_dust/RAVE_fire``: Emission estimates and Fire Radiative Power (FRP) observations derived from `RAVE <https://www.ospo.noaa.gov/products/land/rave/>`_ satellite observations.
 
 .. note::
-   Smoke and dust fix file data has not been added to the S3 bucket. If you would like access to the fix file data necessary to run the application, please reach out the UFS-SRW team in a GitHub discussion.
+   Smoke and dust fixed file data has not been added to the `SRW App data bucket <https://registry.opendata.aws/noaa-ufs-shortrangeweather/>`_. Users and developers who would like access to the fixed file data necessary to run the application should reach out the UFS SRW team in a :srw-repo:`GitHub Discussion <discussions>`.
 
 Users may also wish to change :term:`cron`-related parameters in ``config.yaml``. In the ``config.smoke_dust.yaml`` file, which was copied into ``config.yaml``, cron is used for automatic submission and resubmission of the workflow:
 
