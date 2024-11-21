@@ -86,10 +86,10 @@ If running on Orion or Hercules, users will need to change the data paths to :te
 .. code-block:: console
 
    task_get_extrn_ics:
-     EXTRN_MDL_SOURCE_BASEDIR_ICS: /scratch2/NCEPDEV/naqfc/Chan-hoo.Jeon/aqm_sample_data/RAP_DATA_SD/${yyyymmddhh} # hera
+     EXTRN_MDL_SOURCE_BASEDIR_ICS: /scratch2/NAGAPE/epic/SRW-AQM_DATA/data_smoke_dust/RAP_DATA_SD/${yyyymmddhh} # hera
 #  EXTRN_MDL_SOURCE_BASEDIR_ICS: /work/noaa/epic/SRW-AQM_DATA/input_model_data/RAP/${yyyymmddhh} # orion/hercules
    task_get_extrn_lbcs:
-     EXTRN_MDL_SOURCE_BASEDIR_LBCS: /scratch2/NCEPDEV/naqfc/Chan-hoo.Jeon/aqm_sample_data/RAP_DATA_SD/${yyyymmddhh} # hera
+     EXTRN_MDL_SOURCE_BASEDIR_LBCS: /scratch2/NAGAPE/epic/SRW-AQM_DATA/data_smoke_dust/RAP_DATA_SD/${yyyymmddhh} # hera
 #  EXTRN_MDL_SOURCE_BASEDIR_LBCS: /work/noaa/epic/SRW-AQM_DATA/input_model_data/RAP/${yyyymmddhh} # orion/hercules
 
 In addition to the UFS SRW fixed files, additional data files are required to run the smoke and dust experiment:
