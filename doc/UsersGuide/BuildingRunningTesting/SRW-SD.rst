@@ -29,7 +29,7 @@ Clone the |branch| branch of the authoritative SRW App repository:
 .. code-block:: console
 
    git clone -b main_aqm https://github.com/ufs-community/ufs-srweather-app
-   cd ufs-srweather-app
+   cd ufs-srweather-app/sorc
 
 Checkout Externals
 ---------------------
