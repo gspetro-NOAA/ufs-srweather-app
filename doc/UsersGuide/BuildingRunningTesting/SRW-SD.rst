@@ -256,7 +256,7 @@ If something goes wrong, users can check the log files, which are located by def
 WE2E Test for SRW-SD
 =======================
 
-There is an SRW-SD Workflow End-to-End (WE2E) test in the SRW App repository that tests the configuration described in this chapter. To run the experiment as a WE2E tests, first build the app for SRW-SD:
+There is a SRW-SD Workflow End-to-End (WE2E) test in the SRW App repository that tests the configuration described in this chapter. To run the experiment as a WE2E tests, first build the app for SRW-SD:
 
 .. code-block:: console
 
@@ -269,9 +269,8 @@ Add the WE2E test for SRW-SD to the list file:
    cd /path/to/ufs-srweather-app/tests/WE2E
    echo "smoke_dust_grid_RRFS_CONUS_3km_suite_HRRR_gf" >> my_tests.txt
 
-Run the WE2E test:
+Run the WE2E test, adjusting the command below to use the correct machine (``-m``) and account (``-a``):
 
 .. code-block:: console
 
    $ ./run_WE2E_tests.py -t my_tests.txt -m hera -a gsd-fv3 -q
-
