@@ -8,7 +8,7 @@ SRW Smoke & Dust (SRW-SD) Features
 
    SRW-SD capabilities are a new SRW App feature supported on Hera and Orion/Hercules; on other systems, users can expect only limited support.
 
-This chapter provides instructions for running a sample six-hour forecast for July, 22, 2019 at 0z using SRW Smoke & Dust (SRW-SD) features. These features have been merged into an SRW App feature branch from a UFS WM Rapid Refresh Forecast System (RRFS) production branch. This forecast uses RAP data for :term:`ICs` and :term:`LBCs`, the ``RRFS_CONUS_3km`` predefined grid, and the ``FV3_HRRR_gf`` physics suite. This physics suite is similar to the NOAA operational HRRR v4 suite (Dowell et al., 2022), with the addition of the Grell-Freitas deep convective parameterization. `Scientific documentation for the HRRR_gf suite <https://dtcenter.ucar.edu/GMTB/v7.0.0/sci_doc/_h_r_r_r_gf_page.html>`_ and `technical documentation <https://ccpp-techdoc.readthedocs.io/en/v7.0.0/>`_ are available with the CCPP v7.0.0 release but may differ slightly from the version available in the SRW App.
+This chapter provides instructions for running a sample six-hour forecast for July 22, 2019 at 0z using SRW Smoke & Dust (SRW-SD) features. These features have been merged into an SRW App feature branch from a UFS WM Rapid Refresh Forecast System (RRFS) production branch. This forecast uses RAP data for :term:`ICs` and :term:`LBCs`, the ``RRFS_CONUS_3km`` predefined grid, and the ``FV3_HRRR_gf`` physics suite. This physics suite is similar to the NOAA operational HRRR v4 suite (Dowell et al., 2022), with the addition of the Grell-Freitas deep convective parameterization. `Scientific documentation for the HRRR_gf suite <https://dtcenter.ucar.edu/GMTB/v7.0.0/sci_doc/_h_r_r_r_gf_page.html>`_ and `technical documentation <https://ccpp-techdoc.readthedocs.io/en/v7.0.0/>`_ are available with the CCPP v7.0.0 release but may differ slightly from the version available in the SRW App.
 
 .. note::
 
@@ -40,8 +40,8 @@ Users must run the ``checkout_externals`` script to collect (or "check out") the
 
    ./manage_externals/checkout_externals -e Externals_smoke_dust.cfg
 
-Build the SRW App with AQM
------------------------------
+Build the SRW App
+------------------
 
 .. code-block:: console
 
@@ -79,9 +79,9 @@ Users will need to configure their experiment by setting parameters in the ``con
    cd /path/to/ufs-srweather-app/parm
    cp config.smoke_dust.yaml config.yaml
    
-Users will need to change the ``ACCOUNT`` variable in ``config.yaml`` to an account they have access to. They will also need to indicate which ``MACHINE`` they are working on. Users may also wish to adjust other experiment settings. For more information on each task and variable, see :numref:`Section %s <ConfigWorkflow>`. 
+Users will need to change the ``ACCOUNT`` variable in ``config.yaml`` to an account that they have access to. They will also need to indicate which ``MACHINE`` they are working on. Users may also wish to adjust other experiment settings. For more information on each task and variable, see :numref:`Section %s <ConfigWorkflow>`. 
 
-If running on Orion or Hercules, users will need to change the data paths to :term:`ICs/LBCs` on the following lines in the ``task_get_extrn_*:`` sections of ``config.yaml`` by commenting out the Hera lines and uncommenting the orion/hercules lines:
+If running on Orion or Hercules, users will need to change the data paths to :term:`ICs/LBCs` on the following lines in the ``task_get_extrn_*:`` sections of ``config.yaml`` by commenting out the Hera lines and uncommenting the Orion/Hercules lines:
 
 .. code-block:: console
 
@@ -117,19 +117,9 @@ When using the basic ``config.smoke_dust.yaml`` experiment, the usual pre-proces
 Additional SRW-SD Tasks
 --------------------------
 
-.. COMMENT:
-   :numref:`Figure %s <FlowProcAQM>` illustrates the full non-:term:`DA <data assimilation>` SRW-SD workflow using a flowchart. 
+.. COMMENT: Add workflow diagram in the future. 
 
 Compared to the typical SRW App workflow, the SRW-SD has slightly different tasks for pre- and post-processing. As in the SRW App default workflow, the SRW-SD workflow uses the preprocessing tasks from ``prep.yaml``, but it adds smoke-and-dust-specific tasks from ``smoke_dust.yaml``. For post-processing, it uses the NCO-compliant ``upp_post.yaml`` instead of the usual ``post.yaml``. 
-
-.. COMMENT: 
-   .. _srw-sd-wflow:
-
-   .. figure:: https://github.com/ufs-community/ufs-srweather-app/wiki/WorkflowImages/*.png
-      :alt: Flowchart of the SRW-SD tasks.
-
-      *Workflow Structure of SRW-SD*
-
 
 The new tasks for SRW-SD are shown in :numref:`Table %s <pre-srw-sd>`. 
 
@@ -203,8 +193,6 @@ Users may check experiment status from the experiment directory with either of t
 
    # Check the experiment status and relaunch the workflow (for manual jobs)
    ./launch_FV3LAM_wflow.sh; tail -n 40 log.launch_FV3LAM_wflow
-
-To see a description of each of the AQM workflow tasks, see :numref:`Section %s <AQM-more-tasks>`.
 
 .. _srw-sd-success:
 
