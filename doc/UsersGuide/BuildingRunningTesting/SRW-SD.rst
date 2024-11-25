@@ -239,4 +239,4 @@ The workflow run is complete when all tasks display a "SUCCEEDED" message. If ev
    201907220600    upp_post_mem000_f005    18989110    SUCCEEDED            0       1      294.0
    201907220600    upp_post_mem000_f006    18989111    SUCCEEDED            0       1      294.0
 
-If something goes wrong, users can check the log files, which are located by default in ``nco_dirs/test_smoke_dust/com/output/logs/20190722``.
+If something goes wrong, users can check the log files, which are located by default in ``expt_dirs/smoke_dust_conus3km/nco_logs/20190722``.
