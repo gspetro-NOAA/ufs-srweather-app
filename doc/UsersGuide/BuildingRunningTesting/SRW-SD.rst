@@ -100,7 +100,7 @@ In addition to the UFS SRW fixed files, additional data files are required to ru
 .. note::
    Smoke and dust fixed file data has not been added to the `SRW App data bucket <https://registry.opendata.aws/noaa-ufs-shortrangeweather/>`_. Users and developers who would like access to the fixed file data necessary to run the application should reach out the UFS SRW team in a :srw-repo:`GitHub Discussion <discussions>`.
 
-Users may also wish to change :term:`cron`-related parameters in ``config.yaml``. In the ``config.smoke_dust.yaml`` file, which was copied into ``config.yaml``, cron is used for automatic submission and resubmission of the workflow:
+Users may also wish to change :term:`cron`-related parameters in ``config.yaml``. In the ``config.smoke_dust.yaml`` file, which was copied into ``config.yaml``, cron can be used for automatic submission and resubmission of the workflow by setting the following variables:
 
 .. code-block:: console
 
@@ -151,6 +151,10 @@ The new tasks for SRW-SD are shown in :numref:`Table %s <pre-srw-sd>`.
    * - upp_post
      - Performs post-processing with UPP.
      - ``parm/wflow/upp_post.yaml``
+
+The Python scripts listed in :numref:`Table %s <sd-scripts>` are used to perform data processing and calculations required for the SRW-SD forecast. 
+
+.. _sd-scripts:
 
 .. list-table:: *Python Scripts Used by Smoke and Dust Tasks*
    :widths: 20 50
@@ -252,7 +256,7 @@ If something goes wrong, users can check the log files, which are located by def
 WE2E Test for SRW-SD
 =======================
 
-Build the app for SRW-SD:
+There is an SRW-SD Workflow End-to-End (WE2E) test in the SRW App repository that tests the configuration described in this chapter. To run the experiment as a WE2E tests, first build the app for SRW-SD:
 
 .. code-block:: console
 
