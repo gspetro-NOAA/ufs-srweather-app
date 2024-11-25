@@ -252,25 +252,3 @@ The workflow run is complete when all tasks display a "SUCCEEDED" message. If ev
    201907220600    upp_post_mem000_f006    18989111    SUCCEEDED            0       1      294.0
 
 If something goes wrong, users can check the log files, which are located by default in ``nco_dirs/test_smoke_dust/com/output/logs/20190722``.
-
-WE2E Test for SRW-SD
-=======================
-
-There is a SRW-SD Workflow End-to-End (WE2E) test in the SRW App repository that tests the configuration described in this chapter. To run the experiment as a WE2E tests, first build the app for SRW-SD:
-
-.. code-block:: console
-
-  ./app_build.sh -p=<machine>
-
-Add the WE2E test for SRW-SD to the list file:
-
-.. code-block:: console
-
-   cd /path/to/ufs-srweather-app/tests/WE2E
-   echo "smoke_dust_grid_RRFS_CONUS_3km_suite_HRRR_gf" >> my_tests.txt
-
-Run the WE2E test, adjusting the command below to use the correct machine (``-m``) and account (``-a``):
-
-.. code-block:: console
-
-   $ ./run_WE2E_tests.py -t my_tests.txt -m hera -a gsd-fv3 -q
