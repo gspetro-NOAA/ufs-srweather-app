@@ -61,7 +61,7 @@ Load the workflow environment:
 .. code-block:: console
 
    module purge
-   source /path/to/ufs-srweather-app/modulefiles/versions/run.ver_<machine>
+   source /path/to/ufs-srweather-app/versions/run.ver_<machine>
    module use /path/to/ufs-srweather-app/modulefiles
    module load wflow_<machine>
 
@@ -76,25 +76,26 @@ Users will need to configure their experiment by setting parameters in the ``con
 
 .. code-block:: console
 
-   cd ush
+   cd /path/to/ufs-srweather-app/parm
    cp config.smoke_dust.yaml config.yaml
    
-Users will need to change the ``ACCOUNT`` variable in ``config.yaml`` to an account they have access to. They may also wish to adjust other experiment settings. For more information on each task and variable, see :numref:`Section %s <ConfigWorkflow>`. 
+Users will need to change the ``ACCOUNT`` variable in ``config.yaml`` to an account they have access to. They will also need to indicate which ``MACHINE`` they are working on. Users may also wish to adjust other experiment settings. For more information on each task and variable, see :numref:`Section %s <ConfigWorkflow>`. 
 
-If running on Orion or Hercules, users will need to change the data paths to :term:`ICs/LBCs` on the following lines in ``config.yaml/task_get_extrn_*:``:
+If running on Orion or Hercules, users will need to change the data paths to :term:`ICs/LBCs` on the following lines in the ``task_get_extrn_*:`` sections of ``config.yaml`` by commenting out the Hera lines and uncommenting the orion/hercules lines:
 
 .. code-block:: console
 
    task_get_extrn_ics:
-     EXTRN_MDL_SOURCE_BASEDIR_ICS: /scratch2/NAGAPE/epic/SRW-AQM_DATA/data_smoke_dust/RAP_DATA_SD/${yyyymmddhh} # hera
-#  EXTRN_MDL_SOURCE_BASEDIR_ICS: /work/noaa/epic/SRW-AQM_DATA/input_model_data/RAP/${yyyymmddhh} # orion/hercules
+     # EXTRN_MDL_SOURCE_BASEDIR_ICS: /scratch2/NAGAPE/epic/SRW-AQM_DATA/data_smoke_dust/RAP_DATA_SD/${yyyymmddhh} # hera
+     EXTRN_MDL_SOURCE_BASEDIR_ICS: /work/noaa/epic/SRW-AQM_DATA/input_model_data/RAP/${yyyymmddhh} # orion/hercules
    task_get_extrn_lbcs:
-     EXTRN_MDL_SOURCE_BASEDIR_LBCS: /scratch2/NAGAPE/epic/SRW-AQM_DATA/data_smoke_dust/RAP_DATA_SD/${yyyymmddhh} # hera
-#  EXTRN_MDL_SOURCE_BASEDIR_LBCS: /work/noaa/epic/SRW-AQM_DATA/input_model_data/RAP/${yyyymmddhh} # orion/hercules
+     # EXTRN_MDL_SOURCE_BASEDIR_LBCS: /scratch2/NAGAPE/epic/SRW-AQM_DATA/data_smoke_dust/RAP_DATA_SD/${yyyymmddhh} # hera
+     EXTRN_MDL_SOURCE_BASEDIR_LBCS: /work/noaa/epic/SRW-AQM_DATA/input_model_data/RAP/${yyyymmddhh} # orion/hercules
 
 In addition to the UFS SRW fixed files, additional data files are required to run the smoke and dust experiment:
-* ``fix_smoke``: Contains analysis grids, regridding weights, a vegetation map, and dummy emissions (used when no in situ emission files are available).
-* ``data_smoke_dust/RAVE_fire``: Emission estimates and Fire Radiative Power (FRP) observations derived from `RAVE <https://www.ospo.noaa.gov/products/land/rave/>`_ satellite observations.
+
+   * ``fix_smoke``: Contains analysis grids, regridding weights, a vegetation map, and dummy emissions (used when no in situ emission files are available).
+   * ``data_smoke_dust/RAVE_fire``: Emission estimates and Fire Radiative Power (FRP) observations derived from `RAVE <https://www.ospo.noaa.gov/products/land/rave/>`_ satellite observations.
 
 .. note::
    Smoke and dust fixed file data has not been added to the `SRW App data bucket <https://registry.opendata.aws/noaa-ufs-shortrangeweather/>`_. Users and developers who would like access to the fixed file data necessary to run the application should reach out the UFS SRW team in a :srw-repo:`GitHub Discussion <discussions>`.
@@ -152,7 +153,7 @@ The new tasks for SRW-SD are shown in :numref:`Table %s <pre-srw-sd>`.
      - ``parm/wflow/upp_post.yaml``
 
 .. list-table:: *Python Scripts Used by Smoke and Dust Tasks*
-   :widths: 20 50 30
+   :widths: 20 50
    :header-rows: 1
 
    * - Script
@@ -210,41 +211,41 @@ The workflow run is complete when all tasks display a "SUCCEEDED" message. If ev
 
 .. code-block:: console
 
-[orion-login smoke_dust_conus3km]$ rocotostat -w FV3LAM_wflow.xml -d FV3LAM_wflow.db -v 10
-       CYCLE                    TASK                       JOBID               STATE         EXIT STATUS     TRIES      DURATION
-================================================================================================================================
-201907220000               make_grid                    18984137           SUCCEEDED                   0         1          29.0
-201907220000               make_orog                    18984148           SUCCEEDED                   0         1         419.0
-201907220000          make_sfc_climo                    18984184           SUCCEEDED                   0         1          82.0
-201907220000              smoke_dust                    18984186           SUCCEEDED                   0         1         243.0
-201907220000               prepstart                    18984324           SUCCEEDED                   0         1          24.0
-201907220000           get_extrn_ics                    18984138           SUCCEEDED                   0         1          11.0
-201907220000          get_extrn_lbcs                    18984149           SUCCEEDED                   0         1          12.0
-201907220000         make_ics_mem000                    18984185           SUCCEEDED                   0         1         157.0
-201907220000        make_lbcs_mem000                    18984187           SUCCEEDED                   0         1          85.0
-201907220000         forecast_mem000                    18984328           SUCCEEDED                   0         1        6199.0
-201907220000    upp_post_mem000_f000                    18988282           SUCCEEDED                   0         1         212.0
-201907220000    upp_post_mem000_f001                    18988283           SUCCEEDED                   0         1         247.0
-201907220000    upp_post_mem000_f002                    18988284           SUCCEEDED                   0         1         258.0
-201907220000    upp_post_mem000_f003                    18988285           SUCCEEDED                   0         1         271.0
-201907220000    upp_post_mem000_f004                    18988286           SUCCEEDED                   0         1         284.0
-201907220000    upp_post_mem000_f005                    18988287           SUCCEEDED                   0         1         286.0
-201907220000    upp_post_mem000_f006                    18988288           SUCCEEDED                   0         1         292.0
-================================================================================================================================
-201907220600              smoke_dust                    18988289           SUCCEEDED                   0         1         225.0
-201907220600               prepstart                    18988302           SUCCEEDED                   0         1         112.0
-201907220600           get_extrn_ics                    18984150           SUCCEEDED                   0         1          10.0
-201907220600          get_extrn_lbcs                    18984151           SUCCEEDED                   0         1          14.0
-201907220600         make_ics_mem000                    18984188           SUCCEEDED                   0         1         152.0
-201907220600        make_lbcs_mem000                    18984189           SUCCEEDED                   0         1          79.0
-201907220600         forecast_mem000                    18988311           SUCCEEDED                   0         1        6191.0
-201907220600    upp_post_mem000_f000                    18989105           SUCCEEDED                   0         1         212.0
-201907220600    upp_post_mem000_f001                    18989106           SUCCEEDED                   0         1         283.0
-201907220600    upp_post_mem000_f002                    18989107           SUCCEEDED                   0         1         287.0
-201907220600    upp_post_mem000_f003                    18989108           SUCCEEDED                   0         1         284.0
-201907220600    upp_post_mem000_f004                    18989109           SUCCEEDED                   0         1         289.0
-201907220600    upp_post_mem000_f005                    18989110           SUCCEEDED                   0         1         294.0
-201907220600    upp_post_mem000_f006                    18989111           SUCCEEDED                   0         1         294.0
+   [orion-login smoke_dust_conus3km]$ rocotostat -w FV3LAM_wflow.xml -d FV3LAM_wflow.db -v 10
+         CYCLE                    TASK       JOBID        STATE   EXIT STATUS   TRIES   DURATION
+   ==============================================================================================
+   201907220000               make_grid    18984137    SUCCEEDED            0       1       29.0
+   201907220000               make_orog    18984148    SUCCEEDED            0       1      419.0
+   201907220000          make_sfc_climo    18984184    SUCCEEDED            0       1       82.0
+   201907220000              smoke_dust    18984186    SUCCEEDED            0       1      243.0
+   201907220000               prepstart    18984324    SUCCEEDED            0       1       24.0
+   201907220000           get_extrn_ics    18984138    SUCCEEDED            0       1       11.0
+   201907220000          get_extrn_lbcs    18984149    SUCCEEDED            0       1       12.0
+   201907220000         make_ics_mem000    18984185    SUCCEEDED            0       1      157.0
+   201907220000        make_lbcs_mem000    18984187    SUCCEEDED            0       1       85.0
+   201907220000         forecast_mem000    18984328    SUCCEEDED            0       1     6199.0
+   201907220000    upp_post_mem000_f000    18988282    SUCCEEDED            0       1      212.0
+   201907220000    upp_post_mem000_f001    18988283    SUCCEEDED            0       1      247.0
+   201907220000    upp_post_mem000_f002    18988284    SUCCEEDED            0       1      258.0
+   201907220000    upp_post_mem000_f003    18988285    SUCCEEDED            0       1      271.0
+   201907220000    upp_post_mem000_f004    18988286    SUCCEEDED            0       1      284.0
+   201907220000    upp_post_mem000_f005    18988287    SUCCEEDED            0       1      286.0
+   201907220000    upp_post_mem000_f006    18988288    SUCCEEDED            0       1      292.0
+   ==============================================================================================
+   201907220600              smoke_dust    18988289    SUCCEEDED            0       1      225.0
+   201907220600               prepstart    18988302    SUCCEEDED            0       1      112.0
+   201907220600           get_extrn_ics    18984150    SUCCEEDED            0       1       10.0
+   201907220600          get_extrn_lbcs    18984151    SUCCEEDED            0       1       14.0
+   201907220600         make_ics_mem000    18984188    SUCCEEDED            0       1      152.0
+   201907220600        make_lbcs_mem000    18984189    SUCCEEDED            0       1       79.0
+   201907220600         forecast_mem000    18988311    SUCCEEDED            0       1     6191.0
+   201907220600    upp_post_mem000_f000    18989105    SUCCEEDED            0       1      212.0
+   201907220600    upp_post_mem000_f001    18989106    SUCCEEDED            0       1      283.0
+   201907220600    upp_post_mem000_f002    18989107    SUCCEEDED            0       1      287.0
+   201907220600    upp_post_mem000_f003    18989108    SUCCEEDED            0       1      284.0
+   201907220600    upp_post_mem000_f004    18989109    SUCCEEDED            0       1      289.0
+   201907220600    upp_post_mem000_f005    18989110    SUCCEEDED            0       1      294.0
+   201907220600    upp_post_mem000_f006    18989111    SUCCEEDED            0       1      294.0
 
 If something goes wrong, users can check the log files, which are located by default in ``nco_dirs/test_smoke_dust/com/output/logs/20190722``.
 
