@@ -14,8 +14,8 @@ The following is a list of the parameters in the ``config_defaults.yaml`` file. 
 
 .. _user:
 
-USER Configuration Parameters
-=================================
+USER-Related Configuration Parameters
+======================================
 
 If non-default parameters are selected for the variables in this section, they should be added to the ``user:`` section of the ``config.yaml`` file. 
 
@@ -30,7 +30,7 @@ If non-default parameters are selected for the variables in this section, they s
    Setting ``RUN_ENVIR`` to "community" is recommended in most cases for users who are not running in NCO's production environment. Valid values: ``"nco"`` | ``"community"``
 
 ``MACHINE``: (Default: "BIG_COMPUTER")
-   The machine (a.k.a. platform or system) on which the workflow will run. Currently supported platforms are listed on the :srw-wiki:`SRW App Wiki page <Supported-Platforms-and-Compilers>`. When running the SRW App on any ParallelWorks/NOAA Cloud system, use "NOAACLOUD" regardless of the underlying system (AWS, GCP, or Azure). Valid values: ``"HERA"`` | ``"ORION"`` | ``"HERCULES"`` | ``"JET"`` | ``"CHEYENNE"`` | ``"DERECHO"`` | ``"GAEA"`` |  ``"NOAACLOUD"`` | ``"STAMPEDE"`` | ``"ODIN"`` | ``"MACOS"`` | ``"LINUX"`` | ``"SINGULARITY"`` | ``"WCOSS2"`` (Check ``ufs-srweather-app/ush/valid_param_vals.yaml`` for the most up-to-date list of supported platforms.)
+   The machine (a.k.a. platform or system) on which the workflow will run. Currently supported platforms are listed on the :srw-wiki:`SRW App Wiki page <Supported-Platforms-and-Compilers>`. When running the SRW App on any ParallelWorks/NOAA Cloud system, use "NOAACLOUD" regardless of the underlying system (AWS, GCP, or Azure). Valid values: ``"HERA"`` | ``"ORION"`` | ``"HERCULES"`` | ``"JET"`` | ``"CHEYENNE"`` | ``"DERECHO"`` | ``"GAEA"`` | ``"GAEA-C6"`` |  ``"NOAACLOUD"`` | ``"STAMPEDE"`` | ``"ODIN"`` | ``"MACOS"`` | ``"LINUX"`` | ``"SINGULARITY"`` | ``"WCOSS2"`` (Check ``ufs-srweather-app/ush/valid_param_vals.yaml`` for the most up-to-date list of supported platforms.)
 
    .. hint::
       Users who are NOT on a named, supported Level 1 or 2 platform will need to set the ``MACHINE`` variable to ``LINUX`` or ``MACOS``. To combine use of a Linux or MacOS platform with the Rocoto workflow manager, users will also need to set ``WORKFLOW_MANAGER: "rocoto"`` in the ``platform:`` section of ``config.yaml``. This combination will assume a Slurm batch manager when generating the XML. 
@@ -252,7 +252,7 @@ WORKFLOW Configuration Parameters
 
 If non-default parameters are selected for the variables in this section, they should be added to the ``workflow:`` section of the ``config.yaml`` file. 
 
-``WORKFLOW_ID``: (Default: ``''``)
+``WORKFLOW_ID``: (Default: "")
    Unique ID for the workflow run that will be set in ``setup.py``.
 
 ``RELATIVE_LINK_FLAG``: (Default: "--relative")
@@ -360,6 +360,9 @@ Set File Name Parameters
 ``AQM_RC_TMPL_FN``: (Default: "aqm.rc")
    Template file name of resource file for NOAA Air Quality Model (AQM). 
 
+``FIRE_NML_FN``: (Default: "namelist.fire")
+   Name of namelist file for UFS_FIRE capability. 
+
 Set File Path Parameters
 ----------------------------
 
@@ -390,6 +393,8 @@ Set File Path Parameters
 ``AQM_RC_TMPL_FP``: (Default: ``'{{ [user.PARMdir, AQM_RC_TMPL_FN]|path_join }}'``) 
    Path to the ``AQM_RC_TMPL_FN`` file. 
 
+``FIRE_NML_BASE_FP``: (Default: ``'{{ [user.PARMdir, FIRE_NML_FN]|path_join }}'``)
+   Path to the ``FIRE_NML_FN`` file in the ``parm`` directory.
 
 *Experiment Directory* Files and Paths
 ------------------------------------------
@@ -410,6 +415,9 @@ This section contains files and paths to files that are staged in the experiment
 
 ``FV3_NML_STOCH_FP``: (Default: ``'{{ [EXPTDIR, [FV3_NML_FN, "_stoch"]|join ]|path_join }}'``)
    Path to a namelist file that includes stochastic physics namelist parameters. 
+
+``FIRE_NML_FP``: (Default: ``'{{ [EXPTDIR, FIRE_NML_FN]|path_join }}'``)
+   Path to the ``FIRE_NML_FN`` file in the experiment directory.
 
 ``FCST_MODEL``: (Default: "ufs-weather-model")
    Name of forecast model. Valid values: ``"ufs-weather-model"`` | ``"fv3gfs_aqm"``
@@ -994,7 +1002,7 @@ Vertical Coordinate Parameters
 ``LEVP``: (Default: 65)
    Number of vertical levels in the atmosphere. In order to change this
    number, the user will additionally need to create a vertical coordinate
-   distribution file; this process is described in :numref:`Section %s <VerticalLevels>`
+   distribution file; this process is described in :numref:`Section %s <VerticalLevels>`.
    This value should be the same in both ``make_ics`` and ``make_lbcs``.
 
 ``VCOORD_FILE``: (Default: ``"{{ workflow.FIXam }}/global_hyblev.l65.txt"``)
@@ -1020,7 +1028,7 @@ Vertical Coordinate Parameters
 ``LEVP``: (Default: 65)
    Number of vertical levels in the atmosphere. In order to change this
    number, the user will additionally need to create a vertical coordinate
-   distribution file; this process is described in :numref:`Section %s <VerticalLevels>` 
+   distribution file; this process is described in :numref:`Section %s <VerticalLevels>`.
    This value should be the same in both ``make_ics`` and ``make_lbcs``.
 
 ``VCOORD_FILE``: (Default: ``"{{ workflow.FIXam }}/global_hyblev.l65.txt"``)
@@ -1134,7 +1142,7 @@ Write-Component (Quilting) Parameters
 ``PRINT_ESMF``: (Default: false)
    Flag that determines whether to output extra (debugging) information from :term:`ESMF` routines. Note that the write component uses ESMF library routines to interpolate from the native forecast model grid to the user-specified output grid (which is defined in the model configuration file ``model_configure`` in the forecast run directory). Valid values: ``True`` | ``False``
 
-``PE_MEMBER01``: (Default: ``'{{ OMP_NUM_THREADS_RUN_FCST * (LAYOUT_Y * LAYOUT_X + WRTCMP_write_groups * WRTCMP_write_tasks_per_group) if QUILTING else OMP_NUM_THREADS_RUN_FCST * (LAYOUT_Y * LAYOUT_X)}}'``)
+``PE_MEMBER01``: (Default: ``'{{ OMP_NUM_THREADS_RUN_FCST * (LAYOUT_Y * LAYOUT_X + WRTCMP_write_groups * WRTCMP_write_tasks_per_group) + fire.FIRE_NUM_TASKS if QUILTING else OMP_NUM_THREADS_RUN_FCST * (LAYOUT_Y * LAYOUT_X) + fire.FIRE_NUM_TASKS}}'``)
    The number of MPI processes required by the forecast. When QUILTING is true, it is calculated as: 
    
    .. math::
@@ -2098,9 +2106,10 @@ Non-default parameters for the Community Fire Behavior Model (CFBM) in SRW are s
 ``FIRE_WIND_HEIGHT``: (Default: 5.0)
    Height to interpolate winds to for calculating fire spread rate
 
-``FIRE_ATM_FEEDBACK``: (Default: 0.0)
-   Multiplier for heat fluxes. Use 1.0 for normal two-way coupling. Use 0.0 for one-way coupling.
-   Intermediate values will vary the amount of forcing provided from the fire to the dynamical core.
+``FIRE_ATM_FEEDBACK``: (Default: 1.0)
+   Multiplier for heat and moisture fluxes from the fire to the atmosphere. Use 1.0 for normal
+   two-way coupling. Use 0.0 for one-way coupling. Intermediate values or values greater than 1
+   will vary the amount of forcing provided from the fire to the dynamical core.
 
 ``FIRE_VISCOSITY``: (Default: 0.4)
   Artificial viscosity in level set method. Maximum value of 1. Required for ``FIRE_UPWINDING=0``
@@ -2134,7 +2143,7 @@ Non-default parameters for the Community Fire Behavior Model (CFBM) in SRW are s
    to calculate the logarithmic surface layer wind profile
 
 ``FIRE_LSM_ZCOUPLING_REF`` (Default: 60.0)
-   Reference height from which the velocity at FIRE_WIND_HEIGHT is calculated using a logarithmic profile
+   Reference height from which the velocity at ``FIRE_WIND_HEIGHT`` is calculated using a logarithmic profile
 
 
 ``FIRE_NUM_IGNITIONS`` (Default: 1)
@@ -2143,7 +2152,7 @@ Non-default parameters for the Community Fire Behavior Model (CFBM) in SRW are s
 .. note::
    If ``FIRE_NUM_IGNITIONS > 1``, the following variables should be lists with one entry for each ignition
 
-``FIRE_IGNITION_ROS`` (Default: 0.0)
+``FIRE_IGNITION_ROS`` (Default: 0.05)
    Ignition rate of spread (Rothermel parameterization)
 
 ``FIRE_IGNITION_START_LAT`` (Default: 40.609)
@@ -2164,7 +2173,7 @@ Non-default parameters for the Community Fire Behavior Model (CFBM) in SRW are s
 ``FIRE_IGNITION_START_TIME`` (Default: 6480)
    Start time of ignition(s) in seconds (counting from the beginning of the simulation)
 
-``FIRE_IGNITION_START_TIME`` (Default: 7000)
+``FIRE_IGNITION_END_TIME`` (Default: 7000)
    End time of ignition(s) in seconds (counting from the beginning of the simulation)
 
 
