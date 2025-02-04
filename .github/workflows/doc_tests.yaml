@@ -24,5 +24,6 @@ jobs:
           cd doc
           make clean && make html
       - name: Check links
+        if: ${{ !cancelled() }}
         run: |
           make linkcheck
