@@ -103,7 +103,7 @@ user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Ge
 linkcheck_ignore = [r'https://www\.intel\.com/content/www/us/en/docs/cpp\-compiler/developer\-guide\-reference/2021\-10/thread\-affinity\-interface\.html',
                     r'https://www\.intel\.com/content/www/us/en/developer/tools/oneapi/hpc\-toolkit\-download\.html',
                     r'https://glossary.ametsoc.org/.*',
-                    r'https://readthedocs.org/projects/ufs-srweather-app/',
+                    #r'https://readthedocs.org/projects/ufs-srweather-app/',
                    ]
 
 # Ignore anchor tags for SRW App data bucket. Shows Not Found even when they exist.
@@ -309,7 +309,8 @@ extlinks = {'github-docs': ('https://docs.github.com/en/%s', '%s'),
             "rtd": ("https://readthedocs.org/projects/ufs-srweather-app/%s", "%s"),
             'srw-repo': ('https://github.com/ufs-community/ufs-srweather-app/%s', '%s'),
             'srw-wiki': ('https://github.com/ufs-community/ufs-srweather-app/wiki/%s','%s'),
-            'uw': ('https://uwtools.readthedocs.io/en/main/%s', '%s'),
+            'uw': ('https://uwtools.readthedocs.io/en/stable/%s', '%s'),
+            'uw-repo': ('https://github.com/ufs-community/uwtools/%s', '%s'),
             'fire-ug': ('https://fire-behavior.readthedocs.io/en/latest/%s', '%s'),
             }
 
