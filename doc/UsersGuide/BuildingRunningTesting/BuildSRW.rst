@@ -74,9 +74,7 @@ Download the UFS SRW Application Code
 ======================================
 The SRW Application source code is publicly available on GitHub. To download the SRW App code, clone the |branch| branch of the repository:
 
-.. code-block:: console
-
-   git clone -b develop https://github.com/ufs-community/ufs-srweather-app.git
+.. include:: ../../doc-snippets/clone.rst
 
 The cloned repository contains the configuration files and sub-directories shown in
 :numref:`Table %s <FilesAndSubDirs>`. The user may set an ``$SRW`` environment variable to point to the location of the new ``ufs-srweather-app`` repository. For example, if ``ufs-srweather-app`` was cloned into the ``$HOME`` directory, the following commands will set an ``$SRW`` environment variable in a bash or csh shell, respectively:
@@ -148,10 +146,7 @@ The SRW App relies on a variety of components (e.g., UFS_UTILS, ufs-weather-mode
 
 Run the executable that pulls in SRW App components from external repositories:
 
-.. code-block:: console
-
-   cd /path/to/ufs-srweather-app/
-   ./manage_externals/checkout_externals
+.. include:: ../../doc-snippets/externals.rst
 
 The script should output dialogue indicating that it is retrieving different code repositories. It may take several minutes to download these repositories.
 
