@@ -181,11 +181,7 @@ Set Up the Environment and Build the Executables
 
 On Level 1 systems for which a modulefile is provided under the ``modulefiles`` directory, users can build the SRW App binaries with the following command:
 
-.. code-block:: console
-
-   ./devbuild.sh --platform=<machine_name>
-
-where ``<machine_name>`` is replaced with the name of the platform the user is working on. See :numref:`Section %s <user>` for all valid ``MACHINE`` options.
+.. include:: ../../doc-snippets/devbuild.rst
 
 Directly following the release of SRW v2.2.0, the App will install miniconda and SRW environments as part
 of the build process. The location defaults to inside the SRW clone in ``ufs-srweather-app/conda``,
@@ -389,7 +385,37 @@ Next, users must source the Lmod setup file, just as they would on other systems
    module load build_<platform>_gnu
    export LDFLAGS+=" -L${MPI_ROOT}/lib "
 
-In a csh/tcsh shell, users would run ``source etc/lmod-setup.csh <platform>`` in place of the first line in the code block above. The last line is primarily needed for the MacOS platforms.
+The last line is primarily needed for the MacOS platforms.
+
+Install ``uwtools``
+^^^^^^^^^^^^^^^^^^^^
+
+The :uw:`UW Tools documentation <https://uwtools.readthedocs.io/en/stable/sections/user_guide/installation.html>` has the most up-to-date installation instructions. Users should refer to that documentation as authoritative. The UW team welcomes questions in its :uw-repo:`GitHub Discussions <discussions>` forum. 
+
+For convenience, a suggested procedure is included below for users who do not have ``uwtools`` or ``conda`` installed. However, in the event of problems, refer to the UW Tools documentation and forums. 
+
+#. Run ``uname -om`` to determine the system's operating system and architecture.
+#. Go to the `Miniforge releases page <https://github.com/conda-forge/miniforge/releases>`_ and download the desired version of Miniforge. For example:
+
+   .. code-block:: console
+      
+      wget https://github.com/conda-forge/miniforge/releases/download/24.11.2-1/Miniforge3-24.11.2-1-Linux-x86_64.sh
+#. Run the shell script to install ``conda``. For example:
+   .. code-block:: console
+
+      bash Miniforge3-24.11.2-1-Linux-x86_64.sh -bfp $PWD/conda 
+   
+   Users should replace ``Miniforge3-24.11.2-1-Linux-x86_64.sh`` with the name of the file they downloaded. 
+#. Remove the installation script, e.g., by running: ``rm Miniforge3-24.11.2-1-Linux-x86_64.sh``.
+#. Run: 
+   .. code-block:: console
+      
+      source conda/etc/profile.d/conda.sh
+      conda activate
+      cd ufs-srweather-app/conda/envs
+      conda create -n srw_app -c ufs-community -c conda-forge --override-channels uwtools=<X.Y.Z>
+   
+   where ``<X.Y.Z>`` is the desired version number. Hit ``y`` to continue installation. 
 
 Proceed to building the executables using the process outlined in :numref:`Step %s <BuildCMake>`.
 
