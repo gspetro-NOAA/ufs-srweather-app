@@ -329,6 +329,8 @@ If users want to run the SRW Application for dates other than June 15-16, 2019, 
 Users will need to ensure that the initial and lateral boundary condition files are available
 in the specified path for their new date, cycle, and forecast length.
 
+.. _stage-ics-manually:
+
 Staging Initial Conditions Manually
 -----------------------------------
 If users want to run the SRW Application with raw model files for dates other than those that
@@ -357,6 +359,11 @@ AWS S3 Data Buckets:
 * A list of the NOAA Open Data Dissemination (NODD) datasets can be found here: https://www.noaa.gov/nodd/datasets
 * RRFS - experimental data is available starting 02/01/2024 for deteministic forecasts starting hourly. Forecast data are available out to 60 hours for 00, 06, 12, and 18 UTC starting times (cycles), and out to 18 hours for other cycles. Earlier dates, from 05/01/2023 to 01/31/2024, may contain only forecasts at 00, 06, 12, 18 UTC; user needs to verify that data exist for needed dates.
   https://noaa-rrfs-pds.s3.amazonaws.com/index.html#rrfs_a/
+
+Planetary Computer Data:
+* GFS: https://planetarycomputer.microsoft.com/dataset/storage/noaa-gfs
+* RAP: https://planetarycomputer.microsoft.com/dataset/storage/noaa-rap
+* HRRR: https://planetarycomputer.microsoft.com/dataset/storage/noaa-hrrr
 
 NCEI Archive:
 
