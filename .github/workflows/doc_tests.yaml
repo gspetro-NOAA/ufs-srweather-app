@@ -26,4 +26,5 @@ jobs:
       - name: Check links
         if: ${{ !cancelled() }}
         run: |
+          cd doc
           make linkcheck
