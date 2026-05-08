@@ -118,7 +118,7 @@ Glossary
       Fire Radiative Power (FRP) is a measure of the rate of radiant heat output from a fire, typically derived from satellite observations. FRP observations from :term:`RAVE` data are used in the SRW App's smoke and dust module to estimate fire emissions and initialize smoke tracer fields in the atmospheric model.
 
    FVCOM
-      `Finite Volume Community Ocean Model <http://www.fvcom.org/>`_. FVCOM is used in modeling work for the `Great Lakes Coastal Forecasting System (next-gen FVCOM) <https://www.glerl.noaa.gov/res/glcfs/>`_ conducted by the `Great Lakes Environmental Research Laboratory <https://www.glerl.noaa.gov/>`_.
+      `Finite Volume Community Ocean Model <https://fvcom.smast.umassd.edu/>`_. FVCOM is used in modeling work for the `Great Lakes Coastal Forecasting System (next-gen FVCOM) <https://www.glerl.noaa.gov/res/glcfs/>`_ conducted by the `Great Lakes Environmental Research Laboratory <https://www.glerl.noaa.gov/>`_.
 
    GFS
       `Global Forecast System <https://www.ncei.noaa.gov/products/weather-climate-models/global-forecast>`_. The GFS is a National Centers for Environmental Prediction (:term:`NCEP`) weather forecast model that generates data for dozens of atmospheric and land-soil variables, including temperatures, winds, precipitation, soil moisture, and atmospheric ozone concentration. The system couples four separate models (atmosphere, ocean, land/soil, and sea ice) that work together to accurately depict weather conditions.
@@ -264,7 +264,7 @@ Glossary
       A central location in which files (e.g., data, code, documentation) are stored and managed.
 
    Rocoto
-      The `Rocoto Workflow Management System <https://github.com/christopherwharrop/rocoto/wiki/documentation>`__ is a Ruby-based tool that manages workflow task dependencies and job submission on :term:`HPC` systems. Rocoto communicates with batch systems to run tasks in the proper sequence based on dependencies and can automatically resubmit failed tasks. The SRW App uses Rocoto to orchestrate the execution of workflow tasks defined in the ``FV3LAM_wflow.xml`` file. For more information, see :numref:`Section %s <RocotoInfo>`.
+      The `Rocoto Workflow Management System <https://github.com/NOAA-GSL/rocoto/wiki/Documentation>`__ is a Ruby-based tool that manages workflow task dependencies and job submission on :term:`HPC` systems. Rocoto communicates with batch systems to run tasks in the proper sequence based on dependencies and can automatically resubmit failed tasks. The SRW App uses Rocoto to orchestrate the execution of workflow tasks defined in the ``FV3LAM_wflow.xml`` file. For more information, see :numref:`Section %s <RocotoInfo>`.
 
    RRFS
       The `Rapid Refresh Forecast System <https://gsl.noaa.gov/research/predictions>`_ (RRFS) is NOAA's next-generation convection-allowing, rapidly-updated, ensemble-based data assimilation and forecasting system currently scheduled for operational implementation in 2024. It is designed to run forecasts on a 3-km :term:`CONUS` domain, see also `NOAA Rapid Refresh Forecast System (RRFS) <https://registry.opendata.aws/noaa-rrfs/>`__. Experimental data is currently available from the `AWS S3 NOAA-RRFS  <https://noaa-rrfs-pds.s3.amazonaws.com/index.html#rrfs_a/>`__ bucket for deterministic forecasts out to 60 hours at 00, 06, 12, and 18 UTC. Additionally, hourly forecasts out to 18 hours may be available for more recent RRFS model runs; the user needs to verify that data exists for needed dates.
